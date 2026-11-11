@@ -1,0 +1,2453 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Хаусбилд: дома из СИП-панелей в Минске</title>
+<meta name="description" content="Хаусбилд строит дома и коттеджи из СИП-панелей, выпускает домокомплекты и модульные здания. Пройдите по дому в 3D до начала стройки.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=Unbounded:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Layout idea: тёмный «еловый» первый экран целиком отдан 3D-дому; дальше светлая «бумага» с чертёжными размерными линиями. */
+  --spruce:#0F1E1B;      /* глубокий еловый: первый экран, подвал */
+  --spruce-2:#172B27;    /* поверхность на тёмном */
+  --paper:#F2F3EE;       /* светлый фон */
+  --sheet:#FFFFFF;       /* карточки */
+  --osb:#E8862A;         /* янтарь OSB: единственный акцент */
+  --osb-deep:#B95F10;    /* акцентный текст на светлом */
+  --moss:#2F5D50;        /* вторичный зелёный */
+  --ink:#14211E;         /* текст на светлом */
+  --mute:#5F6F6A;        /* второстепенный текст на светлом */
+  --mist:#A9B8B2;        /* второстепенный текст на тёмном */
+  --line:rgba(20,33,30,.14);
+  --line-dark:rgba(242,243,238,.16);
+  --display:"Unbounded","Arial Black",system-ui,sans-serif;
+  --body:"Golos Text","Segoe UI",system-ui,-apple-system,sans-serif;
+  --wrap:1240px;
+  --gut:clamp(16px,4vw,40px);
+  --r:18px;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+img,svg{max-width:100%}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--osb);outline-offset:3px;border-radius:6px}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 var(--gut)}
+h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.08;margin:0;text-wrap:balance;letter-spacing:-.01em}
+h2{font-size:clamp(1.7rem,3.6vw,2.9rem)}
+h3{font-size:1.05rem;line-height:1.25;font-weight:500}
+p{margin:0}
+.lead{font-size:clamp(1.02rem,1.5vw,1.2rem);color:var(--mute);max-width:60ch}
+.num{font-variant-numeric:tabular-nums}
+
+/* Кнопки */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 26px;border-radius:999px;border:1.5px solid transparent;font-weight:600;font-size:1rem;text-decoration:none;white-space:nowrap;transition:transform .18s ease,background .18s ease,border-color .18s ease,color .18s ease}
+.btn:hover{transform:translateY(-2px)}
+.btn--osb{background:var(--osb);color:#1A1206}
+.btn--osb:hover{background:#F39A45}
+.btn--ghost{border-color:var(--line-dark);color:var(--paper);background:transparent}
+.btn--ghost:hover{border-color:var(--paper)}
+.btn--ink{background:var(--ink);color:var(--paper)}
+.btn--ink:hover{background:var(--moss)}
+.btn svg{flex:none}
+
+/* Шапка */
+.top{position:sticky;top:0;z-index:50;background:rgba(15,30,27,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);color:var(--paper);border-bottom:1px solid var(--line-dark)}
+.top__in{display:flex;align-items:center;gap:28px;min-height:68px}
+.logo{display:inline-flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:1.02rem;letter-spacing:.04em;text-decoration:none}
+.logo svg{color:var(--osb)}
+.nav{display:flex;gap:22px;margin-left:auto;font-size:.95rem}
+.nav a{white-space:nowrap;text-decoration:none;color:var(--mist);padding:8px 0;transition:color .15s}
+.nav a:hover{color:var(--paper)}
+.top__tel{font-weight:600;text-decoration:none;white-space:nowrap}
+.top .btn{min-height:42px;padding:0 20px;font-size:.92rem}
+@media (max-width:1180px){.nav{display:none}.top__tel{margin-left:auto}}
+@media (max-width:560px){.top .btn{display:none}.top__in{min-height:58px}}
+
+/* Первый экран */
+.hero{background:radial-gradient(1200px 520px at 78% -10%,#1F3B34 0%,rgba(31,59,52,0) 70%),var(--spruce);color:var(--paper);padding:clamp(28px,5vw,56px) 0 clamp(36px,6vw,72px);overflow:hidden}
+.hero__head{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:clamp(20px,4vw,56px);align-items:end;margin-bottom:clamp(22px,3.4vw,40px)}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:.84rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mist);margin-bottom:18px}
+.eyebrow i{width:28px;height:1.5px;background:var(--osb);display:block}
+h1{font-size:clamp(2rem,5.1vw,4.2rem);font-weight:600}
+h1 em{font-style:normal;color:var(--osb)}
+.hero__side p{color:var(--mist);font-size:clamp(1rem,1.35vw,1.14rem);max-width:44ch;margin-bottom:22px}
+.hero__cta{display:flex;flex-wrap:wrap;gap:12px}
+@media (max-width:900px){.hero__head{grid-template-columns:1fr;align-items:start}}
+
+/* Сцена 3D-тура */
+.stage{position:relative;border-radius:calc(var(--r) + 6px);overflow:hidden;background:#13251F;border:1px solid var(--line-dark);box-shadow:0 40px 90px -40px rgba(0,0,0,.7)}
+.stage__canvas{position:relative;width:100%;aspect-ratio:16/8.4;min-height:380px}
+@media (max-width:700px){.stage__canvas{aspect-ratio:auto;height:min(118vw,520px)}}
+.stage__info{position:absolute;left:18px;top:18px;z-index:5;max-width:min(330px,calc(100% - 36px));padding:16px 18px;border-radius:14px;background:rgba(15,30,27,.74);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--line-dark);pointer-events:none}
+.stage__info small{display:block;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mist);margin-bottom:6px}
+.stage__info strong{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;font-family:var(--display);font-weight:500;font-size:1.08rem}
+.stage__info strong span{font-family:var(--body);font-weight:600;font-size:.95rem;color:var(--osb)}
+.stage__info p{font-size:.9rem;color:var(--mist);margin-top:6px;line-height:1.4}
+.stage__enter{position:absolute;right:18px;top:18px;z-index:5}
+.stage__enter[hidden]{display:none}
+@media (min-width:901px){.stage__enter{display:none}}
+.stage__hint{position:absolute;right:18px;bottom:16px;z-index:5;font-size:.8rem;color:var(--mist);background:rgba(15,30,27,.6);padding:6px 12px;border-radius:999px;pointer-events:none}
+@media (max-width:700px){.stage__hint{display:none}.stage__enter{top:auto;bottom:14px;right:14px}.stage__info{left:12px;top:12px;padding:12px 14px}.stage__info p{display:none}}
+.rail{display:flex;align-items:center;gap:10px;padding:12px;background:var(--spruce-2);border-top:1px solid var(--line-dark)}
+.rail__list{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;flex:1;padding:2px}
+.rail__list::-webkit-scrollbar{display:none}
+.chip{flex:none;min-height:44px;padding:0 16px;border-radius:999px;border:1px solid var(--line-dark);background:transparent;color:var(--mist);font-size:.92rem;font-weight:500;transition:background .15s,color .15s,border-color .15s}
+.chip:hover{color:var(--paper);border-color:var(--mist)}
+.chip[aria-pressed="true"]{background:var(--paper);color:var(--spruce);border-color:var(--paper)}
+.rail__arrow{flex:none;width:44px;height:44px;border-radius:50%;border:1px solid var(--line-dark);background:transparent;color:var(--paper);display:grid;place-items:center;transition:background .15s}
+.rail__arrow:hover{background:rgba(242,243,238,.1)}
+@media (max-width:560px){.rail__arrow{display:none}}
+.hero__facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;margin-top:clamp(22px,3vw,36px);background:var(--line-dark);border:1px solid var(--line-dark);border-radius:var(--r);overflow:hidden}
+.hero__facts div{background:var(--spruce);padding:18px 20px}
+.hero__facts b{display:block;font-family:var(--display);font-weight:500;font-size:clamp(1rem,1.6vw,1.3rem);margin-bottom:4px}
+.hero__facts span{font-size:.9rem;color:var(--mist);line-height:1.35;display:block}
+@media (max-width:820px){.hero__facts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Секции */
+.sec{padding:clamp(56px,8vw,112px) 0}
+.sec__head{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(16px,4vw,56px);align-items:end;margin-bottom:clamp(28px,4vw,52px)}
+@media (max-width:820px){.sec__head{grid-template-columns:1fr}}
+.tag{font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--osb-deep);font-weight:600;margin-bottom:14px;display:block}
+
+/* Направления */
+.dirs{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:16px}
+.dir{grid-column:span 4;background:var(--sheet);border:1px solid var(--line);border-radius:var(--r);padding:26px;display:flex;flex-direction:column;gap:12px;min-height:250px;transition:transform .2s ease,box-shadow .2s ease}
+.dir:hover{transform:translateY(-4px);box-shadow:0 24px 40px -28px rgba(20,33,30,.45)}
+.dir--main{grid-column:span 8;background:var(--spruce);color:var(--paper);border-color:var(--spruce);position:relative;overflow:hidden}
+.dir--main p{color:var(--mist)}
+.dir--wide{grid-column:span 6}
+.dir p{color:var(--mute);font-size:.98rem;max-width:52ch}
+.dir ul{list-style:none;margin:auto 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.dir li{font-size:.84rem;padding:6px 12px;border-radius:999px;border:1px solid var(--line);color:var(--mute)}
+.dir--main li{border-color:var(--line-dark);color:var(--mist)}
+.dir__ico{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:rgba(232,134,42,.14);color:var(--osb-deep)}
+.dir--main .dir__ico{color:var(--osb)}
+.dir--main h3{font-size:clamp(1.2rem,2vw,1.6rem)}
+@media (max-width:900px){.dir,.dir--main,.dir--wide{grid-column:span 12;min-height:0}}
+
+/* СИП-панель */
+.sip{background:var(--sheet);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.sip__grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,5vw,72px);align-items:center}
+@media (max-width:900px){.sip__grid{grid-template-columns:1fr}}
+.panel{position:relative;padding:34px 0 46px}
+.panel__body{display:flex;height:clamp(230px,30vw,330px);border-radius:6px;overflow:hidden;box-shadow:0 30px 50px -30px rgba(20,33,30,.5)}
+.panel__osb{flex:0 0 9%;background:repeating-linear-gradient(118deg,#D9A05B 0 7px,#C98B43 7px 9px,#E3B272 9px 17px,#BF8038 17px 19px)}
+.panel__core{flex:1;background:radial-gradient(circle at 20% 30%,#fff 0 2px,transparent 3px) 0 0/22px 22px,radial-gradient(circle at 70% 70%,#fff 0 2px,transparent 3px) 0 0/26px 26px,#E9EDE8;display:grid;place-items:center;color:var(--mute);font-size:.9rem;text-align:center;padding:12px}
+.dim{position:absolute;left:0;right:0;display:flex;align-items:center;gap:10px;font-size:.82rem;color:var(--mute);font-variant-numeric:tabular-nums}
+.dim::before,.dim::after{content:"";flex:1;height:1px;background:var(--ink);opacity:.5}
+.dim--top{top:0}
+.dim--bot{bottom:8px}
+.dim b{font-weight:600;color:var(--ink);white-space:nowrap}
+.dim i{position:absolute;top:50%;width:1px;height:14px;background:var(--ink);transform:translateY(-50%) rotate(35deg);opacity:.7}
+.dim i:first-of-type{left:0}.dim i:last-of-type{right:0}
+.panel__legend{display:flex;justify-content:space-between;gap:12px;font-size:.84rem;color:var(--mute);margin-top:12px}
+.sip__list{display:grid;gap:0;margin-top:26px;border-top:1px solid var(--line)}
+.sip__list div{display:grid;grid-template-columns:minmax(120px,190px) 1fr;gap:18px;padding:16px 0;border-bottom:1px solid var(--line)}
+.sip__list dt{font-weight:600}
+.sip__list dd{margin:0;color:var(--mute)}
+@media (max-width:520px){.sip__list div{grid-template-columns:1fr;gap:4px}}
+
+
+/* Цены */
+.price{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:16px;align-items:stretch}
+@media (max-width:960px){.price{grid-template-columns:1fr}}
+.price > *{min-width:0}
+.ladder{min-width:0;background:var(--spruce);color:var(--paper);border-radius:var(--r);padding:clamp(20px,3vw,34px);display:grid;gap:12px;align-content:center}
+.ladder__row{min-width:0;display:grid;grid-template-columns:minmax(120px,210px) minmax(0,1fr) auto;gap:14px;align-items:center;font-size:.96rem}
+.ladder__row span{color:var(--mist)}
+.ladder__row i{display:block;height:12px;border-radius:3px;width:var(--w);background:repeating-linear-gradient(118deg,#D9A05B 0 7px,#C98B43 7px 9px,#E3B272 9px 17px,#BF8038 17px 19px)}
+.ladder__row b{font-family:var(--display);font-weight:500;font-size:.98rem;white-space:nowrap;min-width:6.2em;text-align:right}
+.ladder__row--full span{color:var(--paper);font-weight:600}
+.ladder__row--full b{color:var(--osb)}
+.ladder__note{font-size:.84rem;color:var(--mist);margin-top:8px}
+@media (max-width:560px){.ladder__row{grid-template-columns:minmax(0,1fr) auto;gap:4px 12px}.ladder__row i{grid-column:1/-1;order:3}}
+.kits{background:var(--sheet);border:1px solid var(--line);border-radius:var(--r);padding:clamp(20px,3vw,34px);display:flex;flex-direction:column;gap:20px;align-items:flex-start}
+.kits__scroll{overflow-x:auto;width:100%}
+.kits table{border-collapse:collapse;width:100%;min-width:440px;font-size:.95rem}
+.kits th{text-align:left;font-weight:500;color:var(--mute);font-size:.82rem;padding:0 12px 10px 0;border-bottom:1.5px solid var(--ink)}
+.kits td{padding:14px 12px 14px 0;border-bottom:1px solid var(--line);vertical-align:top}
+.kits td:first-child{font-weight:600}
+.kits td:last-child,.kits th:last-child{text-align:right;padding-right:0;white-space:nowrap}
+.kits tr.is-hit td:first-child::after{content:"в расчёте слева";display:inline-block;margin-left:8px;font-size:.72rem;font-weight:600;padding:2px 8px;border-radius:999px;background:rgba(232,134,42,.18);color:var(--osb-deep);vertical-align:middle}
+
+/* Проекты */
+.proj{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+@media (max-width:900px){.proj{grid-template-columns:1fr}}
+.proj__card{display:flex;flex-direction:column;gap:10px;padding:26px;border-radius:var(--r);background:var(--sheet);border:1px solid var(--line);text-decoration:none;transition:transform .2s ease,box-shadow .2s ease}
+.proj__card:hover{transform:translateY(-4px);box-shadow:0 24px 40px -28px rgba(20,33,30,.45)}
+.proj__card small{font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.proj__card b{font-family:var(--display);font-weight:600;font-size:clamp(1.4rem,2.4vw,1.9rem)}
+.proj__card span{color:var(--mute);font-size:.96rem}
+.proj__card em{font-style:normal;font-weight:600;color:var(--osb-deep);margin-top:auto;padding-top:10px}
+.proj__card--hit{background:var(--moss);border-color:var(--moss);color:var(--paper)}
+.proj__card--hit small,.proj__card--hit span{color:#CFDDD6}
+.proj__card--hit em{color:#F6B77A}
+
+/* Этапы */
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;counter-reset:s;border-top:1.5px solid var(--ink)}
+.steps li{counter-increment:s;padding:22px 20px 6px 0;position:relative}
+.steps li::before{content:counter(s);position:absolute;top:-17px;left:0;width:32px;height:32px;border-radius:50%;background:var(--paper);border:1.5px solid var(--ink);display:grid;place-items:center;font-family:var(--display);font-size:.8rem;font-weight:600}
+.steps li:hover::before{background:var(--osb);border-color:var(--osb)}
+.steps h3{margin:10px 0 8px}
+.steps p{color:var(--mute);font-size:.95rem}
+@media (max-width:900px){.steps{grid-template-columns:1fr;border-top:0;border-left:1.5px solid var(--ink);margin-left:16px}.steps li{padding:0 0 28px 34px}.steps li::before{left:-17px;top:-4px}.steps h3{margin-top:0}}
+
+/* Заявка */
+.lead-sec{background:var(--spruce);color:var(--paper)}
+.lead-sec .tag{color:var(--osb)}
+.lead-sec .lead{color:var(--mist)}
+.lead__grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(24px,5vw,72px);align-items:start}
+@media (max-width:900px){.lead__grid{grid-template-columns:1fr}}
+.lead__perks{list-style:none;padding:0;margin:28px 0 0;display:grid;gap:14px}
+.lead__perks li{display:flex;gap:12px;align-items:flex-start;color:var(--mist)}
+.lead__perks svg{flex:none;color:var(--osb);margin-top:3px}
+.form{background:var(--spruce-2);border:1px solid var(--line-dark);border-radius:calc(var(--r) + 4px);padding:clamp(20px,3vw,34px);display:grid;gap:22px}
+.form fieldset{border:0;margin:0;padding:0;min-width:0}
+.form legend{padding:0;margin-bottom:10px;font-weight:600;font-size:.98rem}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{position:relative}
+.opt input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer}
+.opt span{display:flex;align-items:center;min-height:44px;padding:0 16px;border-radius:999px;border:1px solid var(--line-dark);color:var(--mist);font-size:.94rem;transition:background .15s,color .15s,border-color .15s}
+.opt input:hover + span{border-color:var(--mist);color:var(--paper)}
+.opt input:checked + span{background:var(--osb);border-color:var(--osb);color:#1A1206;font-weight:600}
+.opt input:focus-visible + span{outline:3px solid var(--osb);outline-offset:3px}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:520px){.fields{grid-template-columns:1fr}}
+.field label{display:block;font-size:.86rem;color:var(--mist);margin-bottom:6px}
+.field input{width:100%;min-height:52px;border-radius:12px;border:1px solid var(--line-dark);background:rgba(242,243,238,.06);color:var(--paper);font:inherit;padding:0 16px}
+.field input::placeholder{color:#7F908A}
+.field input:focus{outline:none;border-color:var(--osb);box-shadow:0 0 0 3px rgba(232,134,42,.25)}
+.form__foot{display:flex;flex-wrap:wrap;align-items:center;gap:14px}
+.form__foot small{color:var(--mist);font-size:.82rem;flex:1;min-width:200px}
+.form__err{color:#FFB38A;font-size:.9rem;min-height:1.3em}
+.form__done{display:none;text-align:center;padding:30px 10px}
+.form__done h3{font-size:1.3rem;margin-bottom:10px}
+.form__done p{color:var(--mist)}
+.form.is-done > *:not(.form__done){display:none}
+.form.is-done .form__done{display:block}
+
+/* Вопросы */
+.faq{display:grid;border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:20px;align-items:center;padding:22px 0;font-family:var(--display);font-weight:500;font-size:1.02rem;line-height:1.3}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";flex:none;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-family:var(--body);font-size:1.3rem;transition:transform .2s,background .2s}
+.faq details[open] summary::after{transform:rotate(45deg);background:var(--osb);border-color:var(--osb)}
+.sec__head .lead a{white-space:nowrap}
+.faq p{color:var(--mute);max-width:70ch;padding:0 56px 24px 0}
+
+/* Контакты */
+.contacts{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+@media (max-width:900px){.contacts{grid-template-columns:1fr}}
+.card{background:var(--sheet);border:1px solid var(--line);border-radius:var(--r);padding:clamp(22px,3vw,34px)}
+.card dl{margin:0;display:grid;gap:18px}
+.card dt{font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-bottom:4px}
+.card dd{margin:0;font-size:1.08rem;font-weight:500}
+.card dd a{text-decoration:none;border-bottom:1px solid var(--line)}
+.card dd a:hover{border-color:var(--osb)}
+.card dd.big{font-family:var(--display);font-size:clamp(1.3rem,2.6vw,1.9rem);font-weight:600}
+.map{position:relative;min-height:340px;border-radius:var(--r);overflow:hidden;background:var(--moss);color:var(--paper);display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(22px,3vw,34px);gap:14px}
+.map svg.map__bg{position:absolute;inset:0;width:100%;height:100%;opacity:.5}
+.map > *:not(.map__bg){position:relative}
+.map p{max-width:36ch;color:#D7E2DC}
+
+/* Подвал */
+.foot{background:var(--spruce);color:var(--mist);padding:36px 0 96px;font-size:.9rem}
+.foot__in{display:flex;flex-wrap:wrap;gap:16px 40px;justify-content:space-between;align-items:center}
+.foot .logo{color:var(--paper)}
+@media (min-width:701px){.foot{padding-bottom:36px}}
+
+/* Нижняя панель на телефоне */
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:60;display:none;gap:10px;padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px));background:rgba(15,30,27,.94);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--line-dark)}
+.dock .btn{flex:1;min-height:48px;padding:0 12px;font-size:.94rem}
+@media (max-width:700px){.dock{display:flex}}
+
+/* Появление первого экрана */
+@media (prefers-reduced-motion:no-preference){
+  .hero__head > *{animation:rise .7s cubic-bezier(.2,.7,.2,1) both}
+  .hero__head > *:nth-child(2){animation-delay:.12s}
+  .stage{animation:rise .9s .2s cubic-bezier(.2,.7,.2,1) both}
+  @keyframes rise{from{transform:translateY(18px);opacity:.01}to{transform:none;opacity:1}}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn,.dir{transition:none}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap top__in">
+    <a class="logo" href="#top" aria-label="Хаусбилд, на главную">
+      <svg width="26" height="22" viewBox="0 0 26 22" fill="none" aria-hidden="true"><path d="M1 12 13 2l12 10" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 12v8h16v-8" stroke="#F2F3EE" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      ХАУСБИЛД
+    </a>
+    <nav class="nav" aria-label="Разделы">
+      <a href="#tour">3D-тур</a>
+      <a href="#services">Что строим</a>
+      <a href="#sip">Технология</a>
+      <a href="#price">Цены</a>
+      <a href="#steps">Этапы</a>
+      <a href="#faq">Вопросы</a>
+      <a href="#contacts">Контакты</a>
+    </nav>
+    <a class="top__tel num" href="tel:+375297767747">+375 (29) 776-77-47</a>
+    <a class="btn btn--osb" href="#request">Рассчитать дом</a>
+  </div>
+</header>
+
+<main id="top">
+
+<section class="hero" id="tour">
+  <div class="wrap">
+    <div class="hero__head">
+      <div>
+        <span class="eyebrow"><i></i>Дома из СИП-панелей · Минск</span>
+        <h1>Зайдите в&nbsp;дом раньше, чем мы его <em>построим</em></h1>
+      </div>
+      <div class="hero__side">
+        <p>Хаусбилд проектирует и строит малоэтажные дома и коттеджи, выпускает СИП-панели и домокомплекты. Пройдите по комнатам прямо сейчас, а потом закажите расчёт своего дома.</p>
+        <div class="hero__cta">
+          <button class="btn btn--osb" type="button" data-tour-go="hall">Войти в дом
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M3 9h12m-5-5 5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <a class="btn btn--ghost" href="#request">Рассчитать стоимость</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage__canvas" id="tourCanvas" role="application" aria-label="3D-тур по дому. Комнаты переключаются кнопками под сценой."></div>
+      <div class="stage__info" aria-live="polite">
+        <small id="tourStep">Демо-проект</small>
+        <strong><span id="tourTitle" style="font:inherit;color:inherit">Снаружи</span><span id="tourArea"></span></strong>
+        <p id="tourNote">Одноэтажный дом с террасой. Потяните сцену, чтобы осмотреть его со всех сторон.</p>
+      </div>
+      <button class="btn btn--osb stage__enter" type="button" id="tourEnter" data-tour-go="hall">Войти в дом</button>
+      <span class="stage__hint">Тяните мышью, чтобы осмотреться</span>
+      <div class="rail">
+        <button class="rail__arrow" type="button" id="tourPrev" aria-label="Предыдущая точка"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M11 4 6 9l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="rail__list" id="tourRail" role="group" aria-label="Точки тура"></div>
+        <button class="rail__arrow" type="button" id="tourNext" aria-label="Следующая точка"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="m7 4 5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
+    </div>
+
+    <div class="hero__facts">
+      <div><b class="num">с 2018 года</b><span>ООО «ХАУСБИЛД» строит дома в Беларуси</span></div>
+      <div><b class="num">72 проекта</b><span>готовых домов от 19 до 264 м²</span></div>
+      <div><b class="num">около 2 недель</b><span>сборка дома на готовом фундаменте</span></div>
+      <div><b class="num">5 лет</b><span>гарантия на построенный дом</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="services">
+  <div class="wrap">
+    <div class="sec__head">
+      <div>
+        <span class="tag">Что строим</span>
+        <h2>От домокомплекта до дома с отделкой</h2>
+      </div>
+      <p class="lead">Закажите только комплект панелей и соберите дом своими силами или получите готовый дом с отделкой. Объём работ выбираете вы.</p>
+    </div>
+    <div class="dirs">
+      <article class="dir dir--main">
+        <span class="dir__ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 11 12 4l9 7M5.5 10v9h13v-9M10 19v-5h4v5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <h3>Дома и коттеджи из СИП-панелей</h3>
+        <p>Проектируем и строим малоэтажные дома для постоянного проживания. Панели производим сами, поэтому отвечаем и за материал, и за сборку.</p>
+        <ul><li>Проектирование</li><li>Производство панелей</li><li>Сборка на участке</li><li>Отделка</li></ul>
+      </article>
+      <article class="dir">
+        <span class="dir__ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16v4H4zM4 13h7v4H4zM13 13h7v4h-7z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span>
+        <h3>Домокомплекты для самостоятельной сборки</h3>
+        <p>Раскроенные и пронумерованные панели под ваш проект. Привозим на участок, собираете сами или со своей бригадой.</p>
+        <ul><li>Раскрой по проекту</li><li>Доставка</li></ul>
+      </article>
+      <article class="dir dir--wide">
+        <span class="dir__ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="7" width="18" height="11" rx="1.5" stroke="currentColor" stroke-width="1.8"/><path d="M7 18v2M17 18v2M7 11h4v7H7zM14 11h4v3h-4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span>
+        <h3>Модульные здания</h3>
+        <p>Шестиугольные модули площадью 16,2 м² для дома, офиса, кафе или мотеля. Модули стыкуются между собой, монтаж входит в цену. Отдельно выпускаем регулируемые опоры для модульных зданий, бытовок и павильонов.</p>
+        <ul><li>Модуль 16,2 м²</li><li>Монтаж включён</li><li>Опоры до 10 т</li></ul>
+      </article>
+      <article class="dir dir--wide">
+        <span class="dir__ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 5h11v5H4zM15 7h3a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-6v3M11 16h2v5h-2z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span>
+        <h3>Отделка и материалы</h3>
+        <p>Выполняем отделочные работы и поставляем сопутствующие материалы, чтобы вам не пришлось искать отдельных подрядчиков.</p>
+        <ul><li>Отделочные работы</li><li>Поставка материалов</li></ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="sec sip" id="sip">
+  <div class="wrap sip__grid">
+    <div class="panel" aria-label="Разрез СИП-панели">
+      <div class="dim dim--top"><i></i><b>174 мм, стеновая панель «Стандарт»</b><i></i></div>
+      <div class="panel__body">
+        <div class="panel__osb"></div>
+        <div class="panel__core">Пенополистирол<br>150 мм</div>
+        <div class="panel__osb"></div>
+      </div>
+      <div class="panel__legend"><span>OSB-3, 12 мм</span><span>утеплитель</span><span>OSB-3, 12 мм</span></div>
+    </div>
+    <div>
+      <span class="tag">Технология</span>
+      <h2>Стена, которая приезжает готовой</h2>
+      <p class="lead" style="margin-top:18px">СИП-панель состоит из двух плит OSB и слоя утеплителя между ними. Она сразу и несущая конструкция, и утепление, поэтому дом собирается из готовых деталей, как конструктор.</p>
+      <dl class="sip__list">
+        <div><dt>Обшивка</dt><dd>Плиты OSB-3 толщиной 12 мм: Egger, Ultralam или «Калевала».</dd></div>
+        <div><dt>Утеплитель</dt><dd>Пенополистирол «Экоплэкс». В комплектации «Эко» его дополняет древесный утеплитель «Белтермо».</dd></div>
+        <div><dt>Толщина</dt><dd class="num">124, 174 или 224 мм. Длина панели 2,5 или 2,8 м, ширина до 1250 мм.</dd></div>
+        <div><dt>Тепло</dt><dd class="num">Сопротивление теплопередаче от 3,21 до 6,3 м²·°С/Вт, в зависимости от толщины.</dd></div>
+        <div><dt>Фундамент</dt><dd>Дом весит около 15 тонн и не даёт усадки. Подходит свайный, столбчатый или ленточный фундамент.</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+
+<section class="sec" id="price">
+  <div class="wrap">
+    <div class="sec__head">
+      <div>
+        <span class="tag">Цены</span>
+        <h2>Сколько стоит квадратный метр</h2>
+      </div>
+      <p class="lead">Цена растёт по мере того, сколько работ вы отдаёте нам. Ниже расчёт для комплектации «Стандарт», за 1 м² площади дома.</p>
+    </div>
+    <div class="price">
+      <div class="ladder" role="table" aria-label="Цена за квадратный метр по этапам, комплектация Стандарт">
+        <div class="ladder__row" role="row"><span role="cell">Домокомплект</span><i style="--w:42.5%"></i><b class="num" role="cell">от 280</b></div>
+        <div class="ladder__row" role="row"><span role="cell">+ фундамент</span><i style="--w:48.2%"></i><b class="num" role="cell">от 317,50</b></div>
+        <div class="ladder__row" role="row"><span role="cell">+ монтаж</span><i style="--w:62.6%"></i><b class="num" role="cell">от 412,50</b></div>
+        <div class="ladder__row" role="row"><span role="cell">+ окна и двери</span><i style="--w:71.8%"></i><b class="num" role="cell">от 472,50</b></div>
+        <div class="ladder__row" role="row"><span role="cell">+ кровля</span><i style="--w:80.7%"></i><b class="num" role="cell">от 531,50</b></div>
+        <div class="ladder__row ladder__row--full" role="row"><span role="cell">+ отделка внутри и снаружи</span><i style="--w:100%"></i><b class="num" role="cell">от 658,50</b></div>
+        <p class="ladder__note">Цены в рублях за м². Точную стоимость считаем по вашему проекту.</p>
+      </div>
+      <div class="kits">
+        <h3>Комплектации домокомплекта</h3>
+        <div class="kits__scroll">
+          <table>
+            <thead><tr><th>Комплектация</th><th>Наружные стены</th><th>Внутренние стены</th><th>Цена за м²</th></tr></thead>
+            <tbody>
+              <tr><td>Эконом</td><td class="num">174 мм</td><td>каркас 150 мм</td><td class="num">от 260 руб.</td></tr>
+              <tr class="is-hit"><td>Стандарт</td><td class="num">174 мм</td><td class="num">СИП 174 мм</td><td class="num">от 280 руб.</td></tr>
+              <tr><td>Стандарт Север</td><td class="num">224 мм</td><td class="num">СИП 174 мм</td><td class="num">от 300 руб.</td></tr>
+              <tr><td>Стандарт Эко</td><td class="num">174 мм</td><td>СИП 174 мм и «Белтермо»</td><td class="num">от 400 руб.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <a class="btn btn--ink" href="#request">Посчитать мой дом</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="projects" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec__head">
+      <div>
+        <span class="tag">Проекты</span>
+        <h2>72 готовых проекта, от бани до коттеджа</h2>
+      </div>
+      <p class="lead">Выберите площадь, и мы пришлём планировки и расчёт по подходящим проектам. Любой проект можно изменить.</p>
+    </div>
+    <div class="proj">
+      <a class="proj__card" href="#request"><small>до 100 м²</small><b class="num">9 проектов</b><span>Баня 19, Малый 49, Дачный 64, Эконом 69, Компакт 77, Уютный 86, Мечтаево 92, Экопан 98</span><em>Запросить планировки</em></a>
+      <a class="proj__card proj__card--hit" href="#request"><small>100–200 м²</small><b class="num">50 проектов</b><span>Классик 121, Колибри 127, Лесной 138, Оптимальный 142, Ранчо 145, Бавария 154, Шале 163, Финский 170</span><em>Запросить планировки</em></a>
+      <a class="proj__card" href="#request"><small>от 200 м²</small><b class="num">13 проектов</b><span>Висла 209, Бавария 210, Кохма 224, Виктория 226, Натали 264 и индивидуальные проекты</span><em>Запросить планировки</em></a>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="steps" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec__head">
+      <div>
+        <span class="tag">Этапы</span>
+        <h2>Пять шагов до своего дома</h2>
+      </div>
+      <p class="lead">На каждом этапе понятно, что происходит, сколько это стоит и что вы получаете в конце.</p>
+    </div>
+    <ol class="steps">
+      <li><h3>Заявка и расчёт</h3><p>Рассказываете, какой дом нужен. Считаем предварительную стоимость и предлагаем варианты.</p></li>
+      <li><h3>Проект</h3><p>Разрабатываем планировку и раскладку панелей под ваш участок и бюджет.</p></li>
+      <li><h3>Производство</h3><p>Изготавливаем и раскраиваем панели, комплектуем домокомплект.</p></li>
+      <li><h3>Сборка</h3><p>Привозим комплект и собираем дом на готовом фундаменте примерно за две недели.</p></li>
+      <li><h3>Отделка</h3><p>Кровля, окна, фасад и внутренняя отделка в нужном вам объёме.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="sec lead-sec" id="request">
+  <div class="wrap lead__grid">
+    <div>
+      <span class="tag">Расчёт стоимости</span>
+      <h2>Узнайте цену своего дома</h2>
+      <p class="lead" style="margin-top:18px">Ответьте на три вопроса и оставьте телефон. Перезвоним, уточним детали и посчитаем дом под ваш участок.</p>
+      <ul class="lead__perks">
+        <li><svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m4 10 4 4 8-9" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Расчёт ни к чему не обязывает</li>
+        <li><svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m4 10 4 4 8-9" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Посчитаем и домокомплект, и дом с отделкой, чтобы вы сравнили</li>
+        <li><svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m4 10 4 4 8-9" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Можно приехать в офис в Лошице и обсудить проект лично</li>
+      </ul>
+    </div>
+    <form class="form" id="leadForm" novalidate>
+      <fieldset>
+        <legend>Что планируете?</legend>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="what" id="what1" value="Дом из СИП-панелей" checked><span>Дом из СИП-панелей</span></label>
+          <label class="opt"><input type="radio" name="what" id="what2" value="Домокомплект"><span>Домокомплект</span></label>
+          <label class="opt"><input type="radio" name="what" id="what3" value="Модульное здание"><span>Модульное здание</span></label>
+          <label class="opt"><input type="radio" name="what" id="what4" value="Отделка"><span>Отделка</span></label>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Площадь</legend>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="area" id="area1" value="до 80 м²"><span>до 80 м²</span></label>
+          <label class="opt"><input type="radio" name="area" id="area2" value="80–120 м²" checked><span>80–120 м²</span></label>
+          <label class="opt"><input type="radio" name="area" id="area3" value="120–200 м²"><span>120–200 м²</span></label>
+          <label class="opt"><input type="radio" name="area" id="area4" value="больше 200 м²"><span>больше 200 м²</span></label>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Когда хотите начать?</legend>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="when" id="when1" value="В ближайшие 3 месяца" checked><span>В ближайшие 3 месяца</span></label>
+          <label class="opt"><input type="radio" name="when" id="when2" value="В течение года"><span>В течение года</span></label>
+          <label class="opt"><input type="radio" name="when" id="when3" value="Пока присматриваюсь"><span>Пока присматриваюсь</span></label>
+        </div>
+      </fieldset>
+      <div class="fields">
+        <div class="field"><label for="leadName">Имя</label><input id="leadName" name="name" type="text" autocomplete="given-name" placeholder="Как к вам обращаться"></div>
+        <div class="field"><label for="leadTel">Телефон</label><input id="leadTel" name="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="+375 (__) ___-__-__"></div>
+      </div>
+      <div class="form__foot">
+        <button class="btn btn--osb" type="submit">Получить расчёт</button>
+        <small>Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</small>
+      </div>
+      <div class="form__err" id="leadErr" role="alert"></div>
+      <div class="form__done" id="leadDone" tabindex="-1">
+        <h3 id="leadDoneTitle">Спасибо!</h3>
+        <p id="leadDoneText"></p>
+      </div>
+    </form>
+  </div>
+</section>
+
+<section class="sec" id="faq">
+  <div class="wrap">
+    <div class="sec__head">
+      <div>
+        <span class="tag">Вопросы</span>
+        <h2>Что спрашивают до стройки</h2>
+      </div>
+      <p class="lead">Если вашего вопроса здесь нет, позвоните: <a class="num" href="tel:+375297767747">+375 (29) 776-77-47</a>.</p>
+    </div>
+    <div class="faq">
+      <details open><summary>Сколько времени занимает строительство?</summary><p>Когда проект утверждён, на дом уходит около 14 недель. Сама сборка из панелей на готовом фундаменте занимает около двух недель.</p></details>
+      <details><summary>Можно ли собрать дом самостоятельно?</summary><p>Да. Закажите домокомплект: панели придут раскроенными под ваш проект. Если нужна помощь, наш специалист проведёт шеф-монтаж: проконсультирует дистанционно или приедет на участок.</p></details>
+      <details><summary>Какой фундамент нужен под дом из СИП-панелей?</summary><p>Дом весит около 15 тонн, поэтому тяжёлый фундамент ему не нужен. Обычно делают свайный, столбчатый или ленточный. Какой подойдёт вам, зависит от грунта на участке.</p></details>
+      <details><summary>Чем отличаются комплектации?</summary><p>Толщиной панелей и материалом внутренних стен. В «Экономе» внутренние стены каркасные, в «Стандарте» из СИП-панелей, в «Стандарт Север» наружные стены толще: 224 мм вместо 174. В «Стандарт Эко» добавлен древесный утеплитель «Белтермо».</p></details>
+      <details><summary>Можно ли изменить готовый проект?</summary><p>Можно. Любой из 72 проектов дорабатываем под ваш участок и семью или делаем дом с нуля по вашему техзаданию. Стоимость в обоих случаях считаем индивидуально.</p></details>
+      <details><summary>Какая гарантия?</summary><p>На построенный дом даём гарантию 5 лет. Условия гарантии прописываем в договоре.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="contacts" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec__head">
+      <div>
+        <span class="tag">Контакты</span>
+        <h2>Приезжайте в офис в Лошице</h2>
+      </div>
+      <p class="lead">Обсудим проект, подберём комплектацию и посчитаем стоимость на месте.</p>
+    </div>
+    <div class="contacts">
+      <div class="card">
+        <dl>
+          <div><dt>Телефон</dt><dd class="big num"><a href="tel:+375297767747">+375 (29) 776-77-47</a></dd></div>
+          <div><dt>Адрес</dt><dd>Минск, ул. Павла Шпилевского, 57, офис 6, 2 этаж</dd></div>
+          <div><dt>Почта</dt><dd><a href="mailto:info@invait.by">info@invait.by</a></dd></div>
+          <div><dt>Мессенджеры</dt><dd>Viber и WhatsApp на том же номере</dd></div>
+          <div><dt>Реквизиты</dt><dd style="font-size:.98rem;font-weight:400;color:var(--mute)">ООО «ХАУСБИЛД», УНП&nbsp;<span class="num">691413076</span>.</dd></div>
+        </dl>
+      </div>
+      <div class="map">
+        <svg class="map__bg" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice" fill="none" aria-hidden="true">
+          <g stroke="#F2F3EE" stroke-opacity=".28" stroke-width="10" stroke-linecap="round"><path d="M-20 300 C120 260 260 280 640 150"/><path d="M90 -20 C130 140 220 260 260 420"/><path d="M380 -20 C360 120 420 260 520 420"/></g>
+          <g stroke="#F2F3EE" stroke-opacity=".16" stroke-width="4" stroke-linecap="round"><path d="M-20 120 L640 60"/><path d="M-20 210 L640 240"/><path d="M200 -20 L170 420"/><path d="M470 -20 L450 420"/><path d="M300 -20 L330 420"/></g>
+          <path d="M-20 360 C140 330 240 380 380 350 S560 330 640 370" stroke="#8EC3D6" stroke-opacity=".5" stroke-width="16" stroke-linecap="round"/>
+          <circle cx="340" cy="170" r="34" fill="#E8862A" fill-opacity=".25"/><circle cx="340" cy="170" r="11" fill="#E8862A" stroke="#F2F3EE" stroke-width="3"/>
+        </svg>
+        <h3 style="font-size:1.3rem">Микрорайон Лошица, Ленинский район</h3>
+        <p>Схема условная. Точный маршрут откроется в Яндекс Картах.</p>
+        <a class="btn btn--osb" style="align-self:flex-start" href="https://yandex.by/maps/org/khausbild/36321896930/" target="_blank" rel="noopener">Построить маршрут</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot__in">
+    <a class="logo" href="#top">
+      <svg width="26" height="22" viewBox="0 0 26 22" fill="none" aria-hidden="true"><path d="M1 12 13 2l12 10" stroke="#E8862A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 12v8h16v-8" stroke="#F2F3EE" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      ХАУСБИЛД
+    </a>
+    <span>© 2026 ООО «ХАУСБИЛД». Дом в 3D-туре показан как демо-проект.</span>
+    <span>Концепт сайта, подготовлен для ООО «ХАУСБИЛД»</span>
+  </div>
+</footer>
+
+<div class="dock">
+  <a class="btn btn--ghost" href="tel:+375297767747">Позвонить</a>
+  <a class="btn btn--osb" href="#request">Рассчитать дом</a>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+/*!
+ * HBTour — процедурный 3D-тур по дому «Хаусбилд» (СИП-панели).
+ * Обычный скрипт, требует глобальный THREE r128. Без внешних ресурсов.
+ * API: window.HBTour.mount(container, { start: 'exterior', accent: '#E8862A' })
+ */
+;(function (root) {
+  'use strict';
+
+  /* ------------------------------------------------------------------ */
+  /*  Планировка (метры). Дом 12 × 8 по наружным стенам, центр в (0,0). */
+  /*  +X — восток (терраса), +Z — юг (вход). Внешние стены 0,2; перегородки 0,1 */
+  /* ------------------------------------------------------------------ */
+  var FL = 0.35;          // отметка чистого пола над землёй
+  var WALL_H = 2.8;       // высота наружных стен
+  var CEIL = 2.7;         // высота потолка
+  var EYE = 1.6;          // высота глаз
+  var PITCH = 32 * Math.PI / 180;
+  var RIDGE = WALL_H + 4 * Math.tan(PITCH);
+
+  var ROOMS = {
+    hall:    { x0: -2.15, x1: 0.35,  z0: -1.65, z1: 3.8 },
+    living:  { x0: 0.45,  x1: 5.8,   z0: -3.8,  z1: 3.8 },
+    bedroom: { x0: -5.8,  x1: -2.25, z0: -0.35, z1: 3.8 },
+    kids:    { x0: -5.8,  x1: -2.25, z0: -3.8,  z1: -0.45 },
+    bath:    { x0: -2.15, x1: 0.35,  z0: -3.8,  z1: -1.75 },
+    terrace: { x0: 6,     x1: 9,     z0: -4,    z1: 4 }
+  };
+  function areaOf(id) { var r = ROOMS[id]; return (r.x1 - r.x0) * (r.z1 - r.z0); }
+  function fmtArea(v) { return v.toFixed(1).replace('.', ',') + ' м²'; }
+  var TOTAL = areaOf('hall') + areaOf('living') + areaOf('bedroom') + areaOf('kids') + areaOf('bath');
+
+  function makePoints() {
+    return [
+      { id: 'exterior', title: 'Снаружи', area: fmtArea(TOTAL), note: 'Одноэтажный дом из СИП-панелей с крытой террасой' },
+      { id: 'plan', title: 'Планировка', area: fmtArea(TOTAL), note: 'Кухня-гостиная, две спальни и санузел — ни одного лишнего метра' },
+      { id: 'hall', title: 'Прихожая', area: fmtArea(areaOf('hall')), note: 'Встроенный шкаф и место для верхней одежды всей семьи' },
+      { id: 'living', title: 'Кухня-гостиная', area: fmtArea(areaOf('living')), note: 'Панорамные окна, кухня с островом и выход на террасу' },
+      { id: 'bedroom', title: 'Спальня', area: fmtArea(areaOf('bedroom')), note: 'Тихая спальня с окнами на юг и запад' },
+      { id: 'kids', title: 'Детская', area: fmtArea(areaOf('kids')), note: 'Светлая детская с местом для игр и учёбы' },
+      { id: 'bath', title: 'Санузел', area: fmtArea(areaOf('bath')), note: 'Совмещённый санузел с ванной и окном' },
+      { id: 'terrace', title: 'Терраса', area: fmtArea(areaOf('terrace')), note: 'Крытая терраса под общей крышей — для завтраков и тёплых вечеров' }
+    ];
+  }
+
+  /* Виды: orbit — облёт вокруг цели, look — осмотр из точки */
+  var VIEWS = {
+    exterior: { mode: 'orbit', target: [1.5, 1.3, 0.3], r: 29, phi: 1.2, theta: 0.74, fov: 34, halfW: 11, halfH: 7.2, phiMin: 0.7, phiMax: 1.45, roof: 1, sky: 0, auto: true },
+    plan:     { mode: 'orbit', target: [1.5, 0.4, 0.3], r: 24, phi: 0.5, theta: 0.2, fov: 34, halfW: 10.2, halfH: 7.6, phiMin: 0.12, phiMax: 0.95, roof: 0, sky: 0 },
+    hall:     { mode: 'look', pos: [-0.95, -0.8], look: [-0.7, 1.4, 3.9], roof: 1, sky: 1 },
+    living:   { mode: 'look', pos: [1.15, -1.0], look: [4.6, 1.1, 1.15], roof: 1, sky: 1 },
+    bedroom:  { mode: 'look', pos: [-2.8, 0.85], look: [-4.9, 1.3, 2.3], roof: 1, sky: 1 },
+    kids:     { mode: 'look', pos: [-2.8, -1.05], look: [-4.45, 1.3, -3.1], roof: 1, sky: 1 },
+    bath:     { mode: 'look', pos: [0.0, -2.02], look: [-1.95, 1.3, -3.0], roof: 1, sky: 1 },
+    terrace:  { mode: 'look', pos: [7.7, 2.9], look: [7.9, 1.15, -2.2], roof: 1, sky: 1 }
+  };
+
+  /* Граф соседей: метки, видимые из каждой точки (координаты дома, y от пола) */
+  var NEI = {
+    exterior: [{ to: 'plan', p: [1.5, 6.5, 0] }, { to: 'hall', p: [-0.9, 1.15, 4.5] }, { to: 'terrace', p: [9.1, 1.0, 0] }],
+    plan: [
+      { to: 'hall', p: [-0.9, 1.3, 1.2] }, { to: 'living', p: [3.1, 1.3, 0.9] }, { to: 'bedroom', p: [-4.0, 1.3, 1.9] },
+      { to: 'kids', p: [-4.0, 1.3, -2.1] }, { to: 'bath', p: [-0.9, 1.3, -2.75] }, { to: 'terrace', p: [7.5, 1.0, 0.6] },
+      { to: 'exterior', p: [-0.9, 0.2, 8.6] }
+    ],
+    hall: [
+      { to: 'exterior', p: [-0.9, 1.15, 3.9] }, { to: 'living', p: [0.4, 1.15, 0.3] }, { to: 'bedroom', p: [-2.2, 1.15, 1.2] },
+      { to: 'kids', p: [-2.2, 1.15, -1.05] }, { to: 'bath', p: [-0.9, 1.15, -1.7] }
+    ],
+    living: [{ to: 'hall', p: [0.4, 1.15, 0.3] }, { to: 'terrace', p: [5.9, 1.15, 1.2] }],
+    bedroom: [{ to: 'hall', p: [-2.2, 1.15, 1.2] }],
+    kids: [{ to: 'hall', p: [-2.2, 1.15, -1.05] }],
+    bath: [{ to: 'hall', p: [-0.9, 1.15, -1.7] }],
+    terrace: [{ to: 'living', p: [5.9, 1.15, 1.2] }, { to: 'exterior', p: [11.2, 0.5, 1.4] }]
+  };
+  /* Дверные проёмы, через которые пролетает камера между соседними точками */
+  var VIA = {
+    'hall|living': [0.4, 0.3], 'bedroom|hall': [-2.2, 1.2], 'hall|kids': [-2.2, -1.05],
+    'bath|hall': [-0.9, -1.7], 'exterior|hall': [-0.9, 3.9], 'living|terrace': [5.9, 1.2]
+  };
+
+  /* ------------------------------------------------------------------ */
+  /*  Стили                                                             */
+  /* ------------------------------------------------------------------ */
+  var STYLE_ID = 'hbt-style';
+  var styleRefs = 0;
+  var CSS = [
+    '.hbt-root{position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;border-radius:inherit;background:#0F1E1B;font:inherit;--hbt-accent:#E8862A}',
+    '.hbt-canvas{display:block;width:100%;height:100%;touch-action:pan-y;cursor:grab;outline:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}',
+    '.hbt-canvas.hbt-drag{cursor:grabbing}',
+    '.hbt-canvas:focus-visible{outline:2px solid var(--hbt-accent);outline-offset:-3px}',
+    '.hbt-layer{position:absolute;left:0;top:0;right:0;bottom:0;pointer-events:none;overflow:hidden;font:inherit}',
+    '.hbt-spot{position:absolute;left:0;top:0;display:flex;flex-direction:column;align-items:center;min-width:44px;min-height:44px;margin:0;padding:0;border:0;background:none;color:#F2F3EE;font:inherit;font-size:13px;line-height:1.2;letter-spacing:.01em;cursor:pointer;pointer-events:auto;opacity:1;visibility:visible;transition:opacity .28s ease,visibility .28s;-webkit-tap-highlight-color:transparent;will-change:transform}',
+    '.hbt-spot.hbt-hide{opacity:0;visibility:hidden;pointer-events:none}',
+    '.hbt-dot{position:relative;display:block;width:44px;height:44px;flex:none}',
+    '.hbt-dot::before,.hbt-dot::after{content:"";position:absolute;left:50%;top:50%;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;box-sizing:border-box}',
+    '.hbt-dot::before{background:var(--hbt-accent);box-shadow:0 0 0 3px rgba(242,243,238,.96),0 3px 10px rgba(0,0,0,.4);transition:transform .2s ease}',
+    '.hbt-dot::after{border:2px solid var(--hbt-accent);animation:hbt-pulse 2.2s ease-out infinite}',
+    '@keyframes hbt-pulse{0%{transform:scale(1);opacity:.95}80%,100%{transform:scale(3.1);opacity:0}}',
+    '.hbt-label{display:block;margin-top:-7px;padding:5px 11px 6px;border-radius:999px;background:rgba(15,30,27,.88);border:1px solid rgba(242,243,238,.2);color:#F2F3EE;font-weight:600;white-space:nowrap;box-shadow:0 4px 14px rgba(0,0,0,.28);transition:background .2s ease,color .2s ease}',
+    '.hbt-spot:hover .hbt-label,.hbt-spot:focus-visible .hbt-label{background:var(--hbt-accent);border-color:var(--hbt-accent);color:#0F1E1B}',
+    '.hbt-spot:hover .hbt-dot::before{transform:scale(1.2)}',
+    '.hbt-spot:focus{outline:none}',
+    '.hbt-spot:focus-visible .hbt-dot::before{box-shadow:0 0 0 3px #F2F3EE,0 0 0 6px var(--hbt-accent),0 3px 10px rgba(0,0,0,.4)}',
+    '.hbt-spot:focus-visible .hbt-label{outline:2px solid #F2F3EE;outline-offset:2px}',
+    '.hbt-spot.hbt-compact .hbt-label{display:none}',
+    '.hbt-spot.hbt-edge .hbt-dot::before{width:12px;height:12px;margin:-6px 0 0 -6px}',
+    '.hbt-spot.hbt-edge .hbt-label{background:rgba(15,30,27,.94)}',
+    '.hbt-spot.hbt-compact:hover .hbt-label,.hbt-spot.hbt-compact:focus-visible .hbt-label{display:block}',
+    '.hbt-tag{position:absolute;left:0;top:0;display:flex;align-items:center;gap:8px;padding:6px 11px 6px 8px;border-radius:8px;background:rgba(242,243,238,.95);color:#0F1E1B;font:inherit;font-size:12px;line-height:1.2;font-weight:600;white-space:nowrap;box-shadow:0 4px 14px rgba(0,0,0,.3);opacity:1;visibility:visible;transition:opacity .28s ease,visibility .28s}',
+    '.hbt-tag.hbt-hide{opacity:0;visibility:hidden}',
+    '.hbt-tag::after{content:"";position:absolute;left:var(--hbt-stem,50%);top:100%;width:2px;height:16px;margin-left:-1px;background:rgba(242,243,238,.95)}',
+    '.hbt-tag i{display:block;width:22px;height:14px;border-radius:2px;background:linear-gradient(90deg,#D9A05B 0,#D9A05B 22%,#F4F1E4 22%,#F4F1E4 78%,#D9A05B 78%);box-shadow:inset 0 0 0 1px rgba(15,30,27,.25)}',
+    '.hbt-fallback{position:absolute;left:0;top:0;right:0;bottom:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:24px;box-sizing:border-box;text-align:center;border-radius:inherit;background:radial-gradient(ellipse at 50% 45%,#1B3A33 0,#0F1E1B 75%);color:#F2F3EE;font:inherit}',
+    '.hbt-fallback b{font-size:1.05em;font-weight:600}',
+    '.hbt-fallback span{max-width:34em;font-size:.88em;opacity:.7}',
+    '.hbt-fallback::before{content:"";width:46px;height:34px;margin-bottom:6px;background:linear-gradient(#E8862A,#E8862A) 50% 100%/34px 18px no-repeat;clip-path:polygon(50% 0,100% 47%,87% 47%,87% 100%,13% 100%,13% 47%,0 47%)}',
+    '@media (prefers-reduced-motion:reduce){.hbt-dot::after{animation:none;transform:scale(1.9);opacity:.45}.hbt-spot,.hbt-tag{transition:none}}'
+  ].join('\n');
+
+  function addStyle() {
+    styleRefs++;
+    if (document.getElementById(STYLE_ID)) return;
+    var s = document.createElement('style');
+    s.id = STYLE_ID;
+    s.textContent = CSS;
+    document.head.appendChild(s);
+  }
+  function dropStyle() {
+    styleRefs = Math.max(0, styleRefs - 1);
+    if (styleRefs === 0) {
+      var s = document.getElementById(STYLE_ID);
+      if (s && s.parentNode) s.parentNode.removeChild(s);
+    }
+  }
+
+  function validColor(c, fallback) {
+    if (typeof c !== 'string') return fallback;
+    var s = new Option().style;
+    s.color = c;
+    return s.color ? c : fallback;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  Заглушка без WebGL                                                */
+  /* ------------------------------------------------------------------ */
+  function mountFallback(container, points) {
+    addStyle();
+    var el = document.createElement('div');
+    el.className = 'hbt-fallback';
+    el.setAttribute('role', 'note');
+    el.innerHTML = '<b>3D-тур не поддерживается этим браузером</b><span>Откройте страницу в актуальной версии Chrome, Safari, Firefox или Edge, чтобы прогуляться по дому.</span>';
+    container.appendChild(el);
+    var disposed = false;
+    var tour = {
+      points: points, current: null, supported: false, busy: false,
+      goTo: function () { return false; },
+      on: function () { return tour; },
+      off: function () { return tour; },
+      setAutoRotate: function () {},
+      dispose: function () {
+        if (disposed) return;
+        disposed = true;
+        if (el.parentNode) el.parentNode.removeChild(el);
+        dropStyle();
+      }
+    };
+    return tour;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /*  mount                                                             */
+  /* ------------------------------------------------------------------ */
+  function mount(container, options) {
+    if (typeof container === 'string') container = document.querySelector(container);
+    if (!container) throw new Error('HBTour.mount: контейнер не найден');
+    var opts = options || {};
+    var accent = validColor(opts.accent, '#E8862A');
+    var points = makePoints();
+    var byId = {};
+    points.forEach(function (p) { byId[p.id] = p; });
+    var startId = byId[opts.start] ? opts.start : 'exterior';
+
+    var THREE = root.THREE;
+    if (!THREE || !THREE.WebGLRenderer) return mountFallback(container, points);
+
+    /* --- WebGL-контекст создаём сами, чтобы тихо уйти в заглушку --- */
+    var canvas = document.createElement('canvas');
+    var gl = null;
+    var glAttrs = { alpha: false, antialias: true, depth: true, stencil: false, premultipliedAlpha: true, preserveDrawingBuffer: false, powerPreference: 'high-performance' };
+    try { gl = canvas.getContext('webgl2', glAttrs) || canvas.getContext('webgl', glAttrs) || canvas.getContext('experimental-webgl', glAttrs); } catch (e) { gl = null; }
+    if (!gl) return mountFallback(container, points);
+    var renderer;
+    try { renderer = new THREE.WebGLRenderer({ canvas: canvas, context: gl, antialias: true }); }
+    catch (e2) { return mountFallback(container, points); }
+
+    addStyle();
+    var reduced = !!(root.matchMedia && root.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+    /* --- DOM --- */
+    var rootEl = document.createElement('div');
+    rootEl.className = 'hbt-root';
+    rootEl.style.setProperty('--hbt-accent', accent);
+    canvas.className = 'hbt-canvas';
+    canvas.tabIndex = 0;
+    canvas.setAttribute('role', 'img');
+    canvas.setAttribute('aria-label', '3D-тур по дому. Перетаскивайте, чтобы осмотреться; стрелки влево и вправо поворачивают вид.');
+    var layer = document.createElement('div');
+    layer.className = 'hbt-layer';
+    rootEl.appendChild(canvas);
+    rootEl.appendChild(layer);
+    container.appendChild(rootEl);
+
+    /* --- рендерер --- */
+    var PR = Math.min(root.devicePixelRatio || 1, 2);
+    renderer.setPixelRatio(PR);
+    renderer.outputEncoding = THREE.sRGBEncoding;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.02;
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.shadowMap.autoUpdate = false;   // сцена статична: тени считаются один раз, без мерцания
+    renderer.shadowMap.needsUpdate = true;
+    renderer.setClearColor(0x0F1E1B, 1);
+    var ANISO = Math.min(8, renderer.capabilities.getMaxAnisotropy());
+
+    var scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera(34, 16 / 9, 0.1, 320);
+    camera.rotation.order = 'YXZ';
+
+    /* --- учёт ресурсов для dispose --- */
+    var geos = [], mats = [], texs = [];
+    var geoCache = {}, matCache = {};
+    function G(g) { geos.push(g); return g; }
+
+    function lin(hex) { return new THREE.Color(hex).convertSRGBToLinear(); }
+    /* матовый материал с кэшем */
+    function M(hex, rough, extra) {
+      var key = hex + '|' + (rough == null ? 0.85 : rough) + '|' + (extra ? JSON.stringify(extra) : '');
+      if (matCache[key]) return matCache[key];
+      var m = new THREE.MeshStandardMaterial({ color: lin(hex), roughness: rough == null ? 0.85 : rough, metalness: 0 });
+      if (extra) {
+        if (extra.flat) m.flatShading = true;
+        if (extra.emissive) { m.emissive = lin(extra.emissive); m.emissiveIntensity = extra.ei == null ? 0.5 : extra.ei; }
+        if (extra.side) m.side = THREE.DoubleSide;
+      }
+      mats.push(m);
+      matCache[key] = m;
+      return m;
+    }
+    /* материалы крыши/потолка, которые умеют плавно исчезать */
+    var fadeMats = [];
+    function FM(hex, rough, extra) {
+      var m = new THREE.MeshStandardMaterial({ color: lin(hex), roughness: rough == null ? 0.85 : rough, metalness: 0 });
+      if (extra) {
+        if (extra.map) m.map = extra.map;
+        if (extra.emissive) { m.emissive = lin(extra.emissive); m.emissiveIntensity = extra.ei == null ? 0.5 : extra.ei; }
+        if (extra.side) m.side = THREE.DoubleSide;
+      }
+      mats.push(m);
+      fadeMats.push(m);
+      return m;
+    }
+    function TM(tex, rough, tint) {
+      var m = new THREE.MeshStandardMaterial({ map: tex, color: tint ? lin(tint) : new THREE.Color(1, 1, 1), roughness: rough == null ? 0.85 : rough, metalness: 0 });
+      mats.push(m);
+      return m;
+    }
+
+    /* --- процедурные текстуры --- */
+    function rng(seed) {
+      var a = seed >>> 0;
+      return function () {
+        a |= 0; a = a + 0x6D2B79F5 | 0;
+        var t = Math.imul(a ^ a >>> 15, 1 | a);
+        t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+        return ((t ^ t >>> 14) >>> 0) / 4294967296;
+      };
+    }
+    function tex(w, h, draw, rx, ry) {
+      var c = document.createElement('canvas');
+      c.width = w; c.height = h;
+      draw(c.getContext('2d'), w, h);
+      var t = new THREE.CanvasTexture(c);
+      t.encoding = THREE.sRGBEncoding;
+      t.wrapS = t.wrapT = THREE.RepeatWrapping;
+      t.repeat.set(rx, ry);
+      t.anisotropy = ANISO;
+      texs.push(t);
+      return t;
+    }
+    function hsl(h, s, l) { return 'hsl(' + h + ',' + s + '%,' + l + '%)'; }
+
+    /* паркетная доска: 2,4 × 1,6 м на тайл, доски вдоль X */
+    var tFloor = tex(768, 512, function (g, w, h) {
+      var r = rng(7), rows = 8, rh = h / rows;
+      for (var i = 0; i < rows; i++) {
+        var x = -r() * 260;
+        while (x < w) {
+          var len = 230 + r() * 260;
+          g.fillStyle = hsl(29 + r() * 5, 44 + r() * 6, 57 + r() * 8);
+          g.fillRect(x, i * rh, len + 1, rh);
+          for (var k = 0; k < 5; k++) {
+            g.fillStyle = 'rgba(120,80,40,' + (0.03 + r() * 0.05) + ')';
+            g.fillRect(x + 4, i * rh + 5 + r() * (rh - 10), len - 8, 1 + r() * 1.5);
+          }
+          g.fillStyle = 'rgba(70,45,25,.3)';
+          g.fillRect(x, i * rh, 1.5, rh);
+          x += len;
+        }
+        g.fillStyle = 'rgba(70,45,25,.34)';
+        g.fillRect(0, i * rh, w, 1.5);
+      }
+    }, 1 / 2.4, 1 / 1.6);
+
+    /* вертикальная доска-планкен: 1,2 м на тайл */
+    function boards(base, line, hi, seed, n) {
+      return function (g, w, h) {
+        var r = rng(seed), bw = w / n;
+        g.fillStyle = base; g.fillRect(0, 0, w, h);
+        for (var i = 0; i < n; i++) {
+          g.fillStyle = 'rgba(0,0,0,' + (r() * 0.045) + ')';
+          g.fillRect(i * bw, 0, bw, h);
+          for (var k = 0; k < 4; k++) {
+            g.fillStyle = 'rgba(60,40,20,' + (0.02 + r() * 0.03) + ')';
+            g.fillRect(i * bw + 3 + r() * (bw - 6), 0, 1, h);
+          }
+          g.fillStyle = line; g.fillRect(i * bw, 0, 2.5, h);
+          g.fillStyle = hi; g.fillRect(i * bw + 2.5, 0, 1.5, h);
+        }
+      };
+    }
+    var tClad = tex(256, 64, boards('#EEEDE5', 'rgba(60,62,55,.5)', 'rgba(255,255,255,.7)', 3, 8), 1 / 1.2, 1 / 1.2);
+    var tWood = tex(256, 64, boards('#C98A4B', 'rgba(70,40,15,.55)', 'rgba(255,225,180,.3)', 5, 8), 1 / 1.2, 1 / 1.2);
+    var tDeck = tex(256, 64, boards('#B98B5E', 'rgba(60,38,18,.6)', 'rgba(255,230,190,.22)', 9, 8), 1 / 1.12, 1 / 1.12);
+
+    /* плитка 0,6 × 0,6 */
+    var tTile = tex(256, 256, function (g, w, h) {
+      var r = rng(11);
+      for (var i = 0; i < 2; i++) for (var j = 0; j < 2; j++) {
+        g.fillStyle = hsl(80, 6, 80 + r() * 5);
+        g.fillRect(i * 128, j * 128, 128, 128);
+      }
+      g.fillStyle = 'rgba(120,125,115,.75)';
+      for (var k = 0; k < 2; k++) { g.fillRect(k * 128 - 1.5, 0, 3, h); g.fillRect(0, k * 128 - 1.5, w, 3); }
+      g.fillRect(w - 1.5, 0, 1.5, h); g.fillRect(0, h - 1.5, w, 1.5);
+    }, 1 / 0.6, 1 / 0.6);
+
+    /* газон: мягкий шум, 5 м на тайл */
+    var tLawn = tex(256, 256, function (g, w, h) {
+      var r = rng(21);
+      g.fillStyle = '#5A8650'; g.fillRect(0, 0, w, h);
+      for (var i = 0; i < 2600; i++) {
+        g.fillStyle = hsl(100 + r() * 30, 28 + r() * 14, 30 + r() * 22);
+        g.globalAlpha = 0.16 + r() * 0.2;
+        g.fillRect(r() * w, r() * h, 1.5 + r() * 2.5, 1.5 + r() * 2.5);
+      }
+      g.globalAlpha = 1;
+    }, 1 / 5, 1 / 5);
+
+    /* срез СИП-панели: OSB — утеплитель — OSB (поперёк толщины 0,2 м) */
+    function sipDraw(vertical) {
+      return function (g, w, h) {
+        var r = rng(31), i;
+        g.fillStyle = '#F4F1E4'; g.fillRect(0, 0, w, h);
+        for (i = 0; i < 260; i++) {
+          g.fillStyle = 'rgba(200,196,178,' + (0.25 + r() * 0.3) + ')';
+          g.fillRect(r() * w, r() * h, 2, 2);
+        }
+        var t = Math.round((vertical ? w : h) * 0.23);
+        g.fillStyle = '#D9A05B';
+        if (vertical) { g.fillRect(0, 0, t, h); g.fillRect(w - t, 0, t, h); }
+        else { g.fillRect(0, 0, w, t); g.fillRect(0, h - t, w, t); }
+        for (i = 0; i < 160; i++) {
+          g.fillStyle = r() > 0.5 ? 'rgba(160,105,50,.5)' : 'rgba(240,200,140,.5)';
+          var a = r() * (vertical ? h : w), b = r() * (t - 3), far = r() > 0.5;
+          if (vertical) g.fillRect(far ? w - t + b : b, a, 3, 5);
+          else g.fillRect(a, far ? h - t + b : b, 5, 3);
+        }
+        g.fillStyle = 'rgba(120,75,30,.55)';
+        if (vertical) { g.fillRect(t - 1, 0, 1, h); g.fillRect(w - t, 0, 1, h); }
+        else { g.fillRect(0, t - 1, w, 1); g.fillRect(0, h - t, w, 1); }
+      };
+    }
+    var tSipX = tex(64, 64, sipDraw(false), 2, 5);   // стены вдоль X: слои по Z
+    var tSipZ = tex(64, 64, sipDraw(true), 5, 2);    // стены вдоль Z: слои по X
+
+    /* абстрактный постер в палитре сайта */
+    function artTex(seed) {
+      var t = tex(256, 320, function (g, w, h) {
+        var r = rng(seed);
+        g.fillStyle = '#F2F3EE'; g.fillRect(0, 0, w, h);
+        g.fillStyle = '#2F5D50'; g.beginPath(); g.arc(w * (0.35 + r() * 0.1), h * 0.62, w * 0.3, Math.PI, 0); g.fill();
+        g.fillStyle = accent; g.beginPath(); g.arc(w * (0.6 + r() * 0.1), h * (0.3 + r() * 0.06), w * 0.17, 0, Math.PI * 2); g.fill();
+        g.fillStyle = '#0F1E1B'; g.fillRect(w * 0.14, h * 0.62, w * 0.72, 3);
+        g.fillStyle = '#D9A05B'; g.fillRect(w * 0.14, h * 0.7, w * (0.3 + r() * 0.3), 10);
+        g.fillStyle = '#2F5D50'; g.fillRect(w * 0.14, h * 0.76, w * (0.2 + r() * 0.2), 10);
+      }, 1, 1);
+      t.wrapS = t.wrapT = THREE.ClampToEdgeWrapping;
+      return t;
+    }
+
+    /* --- палитра материалов --- */
+    var C_PAPER = '#F2F3EE', C_MOSS = '#2F5D50', C_OSB = '#D9A05B', C_DARK = '#2B302F';
+    var mWall = M('#F6F5F0', 0.92);
+    var mPartTop = M('#DEDDD5', 0.9);
+    var mClad = TM(tClad, 0.88);
+    var mWoodClad = TM(tWood, 0.8);
+    var mDeck = TM(tDeck, 0.82);
+    var mFloor = TM(tFloor, 0.72);
+    var mTile = TM(tTile, 0.55);
+    var mLawn = TM(tLawn, 0.95);
+    var mSipX = TM(tSipX, 0.85), mSipZ = TM(tSipZ, 0.85);
+    var mFrame = M(C_DARK, 0.6);
+    var mGlass = new THREE.MeshStandardMaterial({ color: lin('#CFE4E6'), roughness: 0.08, metalness: 0, transparent: true, opacity: 0.2, depthWrite: false });
+    mats.push(mGlass);
+    var mOak = M('#C9A070', 0.7), mOakDark = M('#A97F52', 0.7), mWalnut = M('#8A6240', 0.7);
+    var mWhite = M('#F4F3EE', 0.6), mCeramic = M('#FBFBF8', 0.3);
+    var mMoss = M(C_MOSS, 0.8), mMossLight = M('#4C7B6A', 0.85), mMossDeep = M('#254B40', 0.85);
+    var mAccent = M(accent, 0.75), mOsb = M(C_OSB, 0.8);
+    var mFabric = M('#D9D6CB', 0.95), mFabricDark = M('#8C8F86', 0.95), mLinen = M('#ECE8DC', 0.95);
+    var mBlack = M('#1D2120', 0.45), mSteel = M('#B9BDBA', 0.35), mBrass = M('#C99A4A', 0.4);
+    var mConcrete = M('#B9B8B0', 0.95), mStone = M('#D5D3CA', 0.9), mGravel = M('#A7A69C', 1);
+    var mCounter = M('#E9E6DC', 0.45);
+    var mMirror = M('#D4E3E4', 0.12);
+    var mShade = M('#F8ECD2', 0.9, { emissive: '#FFD9A0', ei: 0.55, side: true });
+    var mBulb = M('#FFF3D6', 0.5, { emissive: '#FFE2B0', ei: 1.0 });
+    var mPot = M('#E6E2D8', 0.8), mTerra = M('#C9825A', 0.85);
+    var mLeafA = M('#4F8A5B', 0.9, { flat: true }), mLeafB = M('#3C7350', 0.9, { flat: true }), mLeafC = M('#6CA26A', 0.9, { flat: true });
+    var mSpruce = M('#2A5646', 0.95, { flat: true }), mSpruce2 = M('#33644F', 0.95, { flat: true });
+    var mBark = M('#6E5440', 0.95);
+    var mHedge = M('#2F5D50', 0.95), mSoil = M('#3A3027', 1);
+
+    /* --- геометрические помощники (опорная точка — низ по центру) --- */
+    function add(geo, mat, parent, x, y, z) {
+      var m = new THREE.Mesh(geo, mat);
+      m.position.set(x || 0, y || 0, z || 0);
+      m.castShadow = true; m.receiveShadow = true;
+      parent.add(m);
+      return m;
+    }
+    function boxGeo(w, h, d) {
+      var k = 'b' + w + '|' + h + '|' + d;
+      if (!geoCache[k]) { var g = G(new THREE.BoxGeometry(w, h, d)); g.translate(0, h / 2, 0); geoCache[k] = g; }
+      return geoCache[k];
+    }
+    function B(w, h, d, mat, parent, x, y, z) { return add(boxGeo(w, h, d), mat, parent, x, y, z); }
+    function rrShape(w, d, r) {
+      var s = new THREE.Shape(), x = -w / 2, y = -d / 2, P = Math.PI;
+      r = Math.max(0.001, Math.min(r, w / 2 - 0.0005, d / 2 - 0.0005));
+      s.moveTo(x + r, y);
+      s.lineTo(x + w - r, y); s.absarc(x + w - r, y + r, r, -P / 2, 0, false);
+      s.lineTo(x + w, y + d - r); s.absarc(x + w - r, y + d - r, r, 0, P / 2, false);
+      s.lineTo(x + r, y + d); s.absarc(x + r, y + d - r, r, P / 2, P, false);
+      s.lineTo(x, y + r); s.absarc(x + r, y + r, r, P, P * 1.5, false);
+      return s;
+    }
+    /* скруглённый параллелепипед */
+    function rboxGeo(w, h, d, r) {
+      var k = 'r' + w + '|' + h + '|' + d + '|' + r;
+      if (geoCache[k]) return geoCache[k];
+      var b = Math.min(r * 0.5, h * 0.4);
+      var g = G(new THREE.ExtrudeGeometry(rrShape(w - 2 * b, d - 2 * b, r - b), { depth: h - 2 * b, bevelEnabled: true, bevelThickness: b, bevelSize: b, bevelSegments: 2, curveSegments: 5, steps: 1 }));
+      g.rotateX(-Math.PI / 2);
+      g.translate(0, b, 0);
+      geoCache[k] = g;
+      return g;
+    }
+    function R(w, h, d, r, mat, parent, x, y, z) { return add(rboxGeo(w, h, d, r), mat, parent, x, y, z); }
+    /* кольцо (чаша ванны, раковины, кашпо) */
+    function ringGeo(w, d, r, wall, h) {
+      var s = rrShape(w, d, r);
+      s.holes.push(new THREE.Path(rrShape(w - wall * 2, d - wall * 2, Math.max(0.01, r - wall)).getPoints(6)));
+      var g = G(new THREE.ExtrudeGeometry(s, { depth: h, bevelEnabled: false, curveSegments: 6 }));
+      g.rotateX(-Math.PI / 2);
+      return g;
+    }
+    function cylGeo(rt, rb, h, seg, open) {
+      var k = 'c' + rt + '|' + rb + '|' + h + '|' + (seg || 16) + '|' + (open ? 1 : 0);
+      if (!geoCache[k]) { var g = G(new THREE.CylinderGeometry(rt, rb, h, seg || 16, 1, !!open)); g.translate(0, h / 2, 0); geoCache[k] = g; }
+      return geoCache[k];
+    }
+    function Cy(rt, rb, h, mat, parent, x, y, z, seg, open) { return add(cylGeo(rt, rb, h, seg, open), mat, parent, x, y, z); }
+    function sphGeo(r, detail) {
+      var k = 's' + r + '|' + detail;
+      if (!geoCache[k]) geoCache[k] = G(detail < 0 ? new THREE.SphereGeometry(r, 20, 14) : new THREE.IcosahedronGeometry(r, detail));
+      return geoCache[k];
+    }
+    function grp(parent, x, y, z, ry) {
+      var g = new THREE.Group();
+      g.position.set(x || 0, y || 0, z || 0);
+      if (ry) g.rotation.y = ry;
+      parent.add(g);
+      return g;
+    }
+
+    /* ---------------------------------------------------------------- */
+    /*  Сцена                                                           */
+    /* ---------------------------------------------------------------- */
+    var house = grp(scene, 0, FL, 0);        // всё, что стоит на уровне пола
+    var roofG = grp(house, 0, 0, 0);         // крыша + потолок + подвесы (исчезают в «Планировке»)
+    var occluders = [], roofOccluders = [];
+
+    /* --- фон: тёмно-еловая виньетка (снаружи) / светлое небо (из комнат) --- */
+    var skyU = {
+      uMix: { value: 0 }, uRes: { value: new THREE.Vector2(1, 1) },
+      dA: { value: new THREE.Color('#1F423A') }, dB: { value: new THREE.Color('#0F1E1B') },
+      lTop: { value: new THREE.Color('#BFD6DD') }, lHor: { value: new THREE.Color('#EEF1EA') }, lBot: { value: new THREE.Color('#DCE5DC') }
+    };
+    var skyMat = new THREE.ShaderMaterial({
+      uniforms: skyU, side: THREE.BackSide, depthWrite: false, depthTest: false, fog: false,
+      vertexShader: 'varying vec3 vDir;void main(){vDir=position;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}',
+      fragmentShader: [
+        'uniform float uMix;uniform vec2 uRes;uniform vec3 dA;uniform vec3 dB;uniform vec3 lTop;uniform vec3 lHor;uniform vec3 lBot;varying vec3 vDir;',
+        'float hash(vec2 p){return fract(sin(dot(p,vec2(12.9898,78.233)))*43758.5453);}',
+        'void main(){',
+        ' vec2 p=gl_FragCoord.xy/uRes-vec2(0.5,0.46);',
+        ' float d=clamp(length(p)*2.05,0.0,1.0);',
+        ' vec3 dark=mix(dA,dB,smoothstep(0.0,1.0,d));',
+        ' float h=normalize(vDir).y;',
+        ' vec3 light=h>0.0?mix(lHor,lTop,pow(h,0.55)):mix(lHor,lBot,clamp(-h*5.0,0.0,1.0));',
+        ' vec3 c=mix(dark,light,uMix)+(hash(gl_FragCoord.xy)-0.5)/255.0;',
+        ' gl_FragColor=vec4(c,1.0);',
+        '}'
+      ].join('\n')
+    });
+    mats.push(skyMat);
+    var sky = new THREE.Mesh(G(new THREE.SphereGeometry(120, 24, 16)), skyMat);
+    sky.renderOrder = -10;
+    sky.frustumCulled = false;
+    scene.add(sky);
+
+    /* --- свет --- */
+    var hemi = new THREE.HemisphereLight(0xffffff, 0xc9bfac, 0.66);
+    scene.add(hemi);
+    scene.add(new THREE.AmbientLight(0xffffff, 0.12));
+    var fill = new THREE.DirectionalLight(0xdfe9f2, 0.24);   // заполняющий свет без теней: разводит по тону стены разной ориентации
+    fill.position.set(-9, 7, -12);
+    scene.add(fill);
+    var sun = new THREE.DirectionalLight(0xfff0dc, 1.45);
+    sun.position.set(13.5, 21, 15);
+    sun.target.position.set(1.5, 0, 0.5);
+    sun.castShadow = true;
+    sun.shadow.mapSize.set(2048, 2048);
+    sun.shadow.camera.left = -20; sun.shadow.camera.right = 20;
+    sun.shadow.camera.top = 18; sun.shadow.camera.bottom = -18;
+    sun.shadow.camera.near = 2; sun.shadow.camera.far = 70;
+    sun.shadow.bias = -0.0004;
+    sun.shadow.normalBias = 0.03;
+    sun.shadow.radius = 2.5;
+    scene.add(sun); scene.add(sun.target);
+    /* мягкая тёплая подсветка комнат (без теней) */
+    [[3.1, 0.1, 0.42, 9], [3.2, -2.6, 0.2, 6], [-0.9, 1.0, 0.3, 6.5], [-4.0, 1.8, 0.3, 6.5], [-4.0, -2.1, 0.3, 6.5], [-0.9, -2.8, 0.26, 5]].forEach(function (l) {
+      var p = new THREE.PointLight(0xffe6c4, l[2], l[3], 1.6);
+      p.position.set(l[0], 2.25, l[1]);
+      house.add(p);
+    });
+
+    /* ---------------- стены ---------------- */
+    function worldUV(geo, cx, cy, cz) {
+      var p = geo.attributes.position, n = geo.attributes.normal, uv = geo.attributes.uv;
+      for (var i = 0; i < p.count; i++) {
+        var x = p.getX(i) + cx, y = p.getY(i) + cy, z = p.getZ(i) + cz;
+        if (Math.abs(n.getX(i)) > 0.5) uv.setXY(i, z, y);
+        else if (Math.abs(n.getY(i)) > 0.5) uv.setXY(i, x, z);
+        else uv.setXY(i, x, y);
+      }
+      uv.needsUpdate = true;
+    }
+    function wbox(x0, x1, y0, y1, z0, z1, mat) {
+      var g = G(new THREE.BoxGeometry(x1 - x0, y1 - y0, z1 - z0));
+      var cx = (x0 + x1) / 2, cy = (y0 + y1) / 2, cz = (z0 + z1) / 2;
+      worldUV(g, cx, cy, cz);
+      var m = add(g, mat, house, cx, cy, cz);
+      occluders.push(m);
+      return m;
+    }
+    /* axis 'x' — стена идёт вдоль X; c0..c1 — толщина; a..b — длина; openings: [{a,b,sill,head}] */
+    function wallRun(axis, c0, c1, a, b, H, openings, ext) {
+      function piece(p0, p1, y0, y1) {
+        if (p1 - p0 < 0.001 || y1 - y0 < 0.001) return;
+        var top = y1 >= H - 0.001;
+        var mat;
+        if (ext || top) {
+          mat = [mWall, mWall, mWall, mWall, mWall, mWall];
+          if (ext) mat[ext.face] = ext.mat;
+          if (top) mat[2] = ext ? (axis === 'x' ? mSipX : mSipZ) : mPartTop;
+        } else mat = mWall;
+        if (axis === 'x') wbox(p0, p1, y0, y1, c0, c1, mat);
+        else wbox(c0, c1, y0, y1, p0, p1, mat);
+      }
+      var ops = (openings || []).slice().sort(function (p, q) { return p.a - q.a; });
+      var cur = a;
+      ops.forEach(function (o) {
+        piece(cur, o.a, 0, H);
+        if (o.sill > 0) piece(o.a, o.b, 0, o.sill);
+        piece(o.a, o.b, o.head, H);
+        cur = o.b;
+      });
+      piece(cur, b, 0, H);
+    }
+
+    var W = {
+      bedS: { a: -4.9, b: -3.1, sill: 0.8, head: 2.3 },
+      door: { a: -1.4, b: -0.4, sill: 0, head: 2.15 },
+      pano: { a: 1.4, b: 5.0, sill: 0.12, head: 2.45 },
+      kidsN: { a: -4.9, b: -3.3, sill: 0.9, head: 2.3 },
+      bathN: { a: -1.5, b: -0.7, sill: 1.5, head: 2.15 },
+      kitN: { a: 2.6, b: 4.6, sill: 1.15, head: 2.15 },
+      kidsW: { a: -2.8, b: -1.6, sill: 0.9, head: 2.3 },
+      bedW: { a: 1.2, b: 2.6, sill: 1.1, head: 2.3 },
+      terr: { a: 0.6, b: 3.0, sill: 0, head: 2.3 },
+      kitE: { a: -3.0, b: -1.4, sill: 0.95, head: 2.3 }
+    };
+    // наружные: [px, nx, py, ny, pz, nz]
+    wallRun('x', 3.8, 4, -6, 6, WALL_H, [W.bedS, W.door, W.pano], { face: 4, mat: mClad });
+    wallRun('x', -4, -3.8, -6, 6, WALL_H, [W.kidsN, W.bathN, W.kitN], { face: 5, mat: mClad });
+    wallRun('z', -6, -5.8, -3.8, 3.8, WALL_H, [W.kidsW, W.bedW], { face: 1, mat: mClad });
+    wallRun('z', 5.8, 6, -3.8, 3.8, WALL_H, [W.kitE, W.terr], { face: 0, mat: mWoodClad });
+    // перегородки
+    wallRun('z', -2.25, -2.15, -3.8, 3.8, CEIL, [{ a: -1.5, b: -0.6, sill: 0, head: 2.1 }, { a: 0.75, b: 1.65, sill: 0, head: 2.1 }]);
+    wallRun('z', 0.35, 0.45, -3.8, 3.8, CEIL, [{ a: -0.4, b: 1.0, sill: 0, head: 2.3 }]);
+    wallRun('x', -0.45, -0.35, -5.8, -2.25, CEIL, []);
+    wallRun('x', -1.75, -1.65, -2.15, 0.35, CEIL, [{ a: -1.35, b: -0.45, sill: 0, head: 2.1 }]);
+
+    /* ---------------- окна ---------------- */
+    function windowUnit(axis, c, o, cfg) {
+      cfg = cfg || {};
+      var g = axis === 'x' ? grp(house, 0, 0, c) : grp(house, c, 0, 0, -Math.PI / 2);
+      var p = 0.055, dep = 0.1, w = o.b - o.a, h = o.head - o.sill, mid = (o.a + o.b) / 2;
+      var y0 = o.sill + (cfg.noBottom ? 0 : p);
+      if (!cfg.noBottom) B(w, p, dep, mFrame, g, mid, o.sill, 0);
+      B(w, p, dep, mFrame, g, mid, o.head - p, 0);
+      B(p, o.head - p - y0, dep, mFrame, g, o.a + p / 2, y0, 0);
+      B(p, o.head - p - y0, dep, mFrame, g, o.b - p / 2, y0, 0);
+      (cfg.mull || []).forEach(function (f) { B(0.045, o.head - p - y0, dep * 0.8, mFrame, g, o.a + w * f, y0, 0); });
+      var ga = cfg.glass ? cfg.glass[0] : o.a + p, gb = cfg.glass ? cfg.glass[1] : o.b - p;
+      var gm = B(gb - ga, o.head - p - y0, 0.014, mGlass, g, (ga + gb) / 2, y0, 0);
+      gm.castShadow = false; gm.receiveShadow = false; gm.renderOrder = 5;
+      if (cfg.sillBoard) B(w + 0.1, 0.03, 0.16, mWhite, g, mid, o.sill - 0.03, cfg.sillBoard * 0.13);
+      return g;
+    }
+    windowUnit('x', 3.9, W.bedS, { mull: [0.5], sillBoard: -1 });
+    windowUnit('x', 3.9, W.pano, { mull: [1 / 3, 2 / 3] });
+    windowUnit('x', -3.9, W.kidsN, { mull: [0.5], sillBoard: 1 });
+    windowUnit('x', -3.9, W.bathN, { sillBoard: 1 });
+    windowUnit('x', -3.9, W.kitN, { mull: [0.5] });
+    windowUnit('z', -5.9, W.kidsW, { sillBoard: -1 });
+    windowUnit('z', -5.9, W.bedW, { sillBoard: -1 });
+    windowUnit('z', 5.9, W.kitE, { mull: [0.5] });
+    /* раздвижная дверь на террасу: глухая створка 1,8..3,0, проём 0,6..1,8 открыт */
+    var slide = windowUnit('z', 5.9, W.terr, { noBottom: true, glass: [1.8, 2.945] });
+    (function () {
+      // сдвинутая створка стоит поверх глухой
+      var zOff = -0.04, a = 1.72, b = 2.9, h = 2.19, p = 0.05;
+      B(p, h, 0.04, mFrame, slide, a + p / 2, 0.03, zOff);
+      B(p, h, 0.04, mFrame, slide, b - p / 2, 0.03, zOff);
+      B(b - a, p, 0.04, mFrame, slide, (a + b) / 2, 0.03, zOff);
+      B(b - a, p, 0.04, mFrame, slide, (a + b) / 2, h - p + 0.03, zOff);
+      var gm = B(b - a - 2 * p, h - 2 * p, 0.012, mGlass, slide, (a + b) / 2, 0.03 + p, zOff);
+      gm.castShadow = false; gm.renderOrder = 5;
+      B(0.02, 0.9, 0.03, mSteel, slide, a + 0.1, 0.75, zOff - 0.035);
+      B(2.4, 0.02, 0.12, mFrame, slide, 1.8, 0, 0);   // порог-направляющая
+    })();
+
+    /* входная дверь: открыта наружу */
+    (function () {
+      var g = grp(house, 0, 0, 3.9);
+      B(0.06, 2.15, 0.12, mFrame, g, -1.37, 0, 0);
+      B(0.06, 2.15, 0.12, mFrame, g, -0.43, 0, 0);
+      B(1.0, 0.06, 0.12, mFrame, g, -0.9, 2.09, 0);
+      var leaf = grp(house, -1.33, 0, 4.0, -(Math.PI / 2 + 0.2));
+      B(0.9, 2.07, 0.05, mAccent, leaf, 0.45, 0.01, 0);
+      var gl2 = B(0.12, 1.5, 0.056, M('#E9F0EE', 0.2), leaf, 0.68, 0.32, 0);
+      gl2.castShadow = false;
+      B(0.03, 0.42, 0.03, mBlack, leaf, 0.82, 0.86, 0.05);
+      B(0.03, 0.42, 0.03, mBlack, leaf, 0.82, 0.86, -0.05);
+      // настенный светильник и номер дома
+      B(0.1, 0.22, 0.08, mBlack, house, -0.05, 1.75, 4.0);
+      B(0.07, 0.12, 0.02, mBulb, house, -0.05, 1.78, 4.08);
+    })();
+
+    /* межкомнатные двери (открыты настежь) */
+    (function () {
+      var mDoor = M('#EDEBE3', 0.7);
+      B(0.04, 2.06, 0.86, mDoor, house, -2.29, 0.01, 0.31);    // спальня
+      B(0.04, 2.06, 0.86, mDoor, house, -2.29, 0.01, -1.94);   // детская
+      Cy(0.012, 0.012, 0.12, mBlack, house, -2.33, 1.0, -0.06).rotation.z = Math.PI / 2;
+      Cy(0.012, 0.012, 0.12, mBlack, house, -2.33, 1.0, -2.31).rotation.z = Math.PI / 2;
+      // амбарная дверь санузла, сдвинута вбок
+      B(0.86, 2.08, 0.04, mOak, house, -1.72, 0.02, -1.62);
+      B(1.9, 0.04, 0.03, mBlack, house, -1.2, 2.13, -1.625);
+      B(0.025, 0.3, 0.03, mBlack, house, -1.38, 0.95, -1.59);
+    })();
+
+    /* ---------------- полы, фундамент ---------------- */
+    function floorRect(r, mat, e) {
+      e = e == null ? 0.05 : e;
+      var w = r.x1 - r.x0 + 2 * e, d = r.z1 - r.z0 + 2 * e;
+      var g = G(new THREE.PlaneGeometry(w, d));
+      g.rotateX(-Math.PI / 2);
+      var cx = (r.x0 + r.x1) / 2, cz = (r.z0 + r.z1) / 2;
+      var p = g.attributes.position, uv = g.attributes.uv;
+      for (var i = 0; i < p.count; i++) uv.setXY(i, p.getX(i) + cx, p.getZ(i) + cz);
+      var m = add(g, mat, house, cx, 0, cz);
+      m.castShadow = false;
+      return m;
+    }
+    floorRect(ROOMS.hall, mFloor); floorRect(ROOMS.living, mFloor);
+    floorRect(ROOMS.bedroom, mFloor); floorRect(ROOMS.kids, mFloor);
+    floorRect(ROOMS.bath, mTile);
+    B(11.94, FL - 0.02, 7.94, mConcrete, scene, 0, 0, 0);                 // цоколь
+    // пороги в наружных проёмах
+    B(1.0, 0.02, 0.2, mOakDark, house, -0.9, -0.02, 3.9);
+    /* потолок */
+    var ceilM = FM('#F8F7F3', 0.95);
+    var ceil = B(11.6, 0.1, 7.6, ceilM, roofG, 0, CEIL, 0);
+    roofOccluders.push(ceil);
+
+    /* ---------------- крыша ---------------- */
+    (function () {
+      var mRoof = FM('#30363A', 0.62), mRoofRib = FM('#272C30', 0.6);
+      var th = 0.16, L = 4.6 / Math.cos(PITCH), ext = th * Math.tan(PITCH), LEN = 16, CX = 1.5;
+      var slabGeo = G(new THREE.BoxGeometry(LEN, th, L + ext));
+      slabGeo.translate(0, th / 2, (L - ext) / 2);
+      var ribGeo = G(new THREE.BoxGeometry(0.04, 0.035, L - 0.06));
+      ribGeo.translate(0, th + 0.0175, L / 2);
+      var dummy = new THREE.Object3D();
+      function slope(parent) {
+        var g = new THREE.Group();
+        g.rotation.x = PITCH;
+        parent.add(g);
+        var s = add(slabGeo, mRoof, g, 0, 0, 0);
+        roofOccluders.push(s);
+        var n = 31, inst = new THREE.InstancedMesh(ribGeo, mRoofRib, n);
+        for (var i = 0; i < n; i++) {
+          dummy.position.set(-LEN / 2 + 0.02 + i * (LEN - 0.04) / (n - 1), 0, 0);
+          dummy.updateMatrix();
+          inst.setMatrixAt(i, dummy.matrix);
+        }
+        inst.castShadow = true; inst.receiveShadow = true;
+        g.add(inst);
+      }
+      slope(grp(roofG, CX, RIDGE, 0));
+      slope(grp(roofG, CX, RIDGE, 0, Math.PI));
+      B(LEN + 0.04, 0.06, 0.34, mRoofRib, roofG, CX, RIDGE + th / Math.cos(PITCH) - 0.03, 0);
+      B(0.55, 1.5, 0.55, FM('#3A4044', 0.8), roofG, -3.4, 4.1, -1.7);
+      B(0.65, 0.06, 0.65, mRoofRib, roofG, -3.4, 5.6, -1.7);
+      // фронтоны
+      var sh = new THREE.Shape();
+      sh.moveTo(-4, 0); sh.lineTo(4, 0); sh.lineTo(0, RIDGE - WALL_H); sh.closePath();
+      var gg = G(new THREE.ExtrudeGeometry(sh, { depth: 0.2, bevelEnabled: false }));
+      gg.rotateY(Math.PI / 2);
+      var mGable = FM('#FFFFFF', 0.88, { map: tClad });
+      var mGableW = FM('#FFFFFF', 0.8, { map: tWood });
+      [[-6, mGable], [5.8, mGable], [8.75, mGableW]].forEach(function (a) {
+        var m = add(gg, a[1], roofG, a[0], WALL_H, 0);
+        roofOccluders.push(m);
+      });
+      // подшив террасы
+      var soffit = B(2.95, 0.1, 8, FM('#FFFFFF', 0.8, { map: tWood }), roofG, 7.475, CEIL, 0);
+      worldUVSimple(soffit);
+      roofOccluders.push(soffit);
+    })();
+    function worldUVSimple(mesh) {
+      var g = mesh.geometry.clone(); G(g);
+      worldUV(g, mesh.position.x, mesh.position.y, mesh.position.z);
+      mesh.geometry = g;
+    }
+
+    /* ---------------- терраса (конструктив) ---------------- */
+    (function () {
+      var deck = B(3, 0.12, 8, mDeck, scene, 7.5, FL - 0.14, 0);
+      worldUVSimple(deck);
+      B(2.9, FL - 0.14, 7.9, M('#6E5A46', 0.95), scene, 7.5, 0, 0);
+      // ступени
+      B(0.36, FL - 0.19, 3.2, mDeck, scene, 9.18, 0, 0.6);
+      [-3.88, 0, 3.88].forEach(function (z) { B(0.15, CEIL - 0.2 + 0.02, 0.15, mOakDark, house, 8.85, -0.02, z); });
+      B(0.18, 0.2, 7.95, mOakDark, house, 8.85, CEIL - 0.2, 0);
+      B(2.85, 0.16, 0.14, mOakDark, house, 7.38, CEIL - 0.16, -3.9);
+      B(2.85, 0.16, 0.14, mOakDark, house, 7.38, CEIL - 0.16, 3.9);
+    })();
+
+    /* ---------------- мебель: общие детали ---------------- */
+    function splayLeg(g, x, z, h, r, mat, sx, sz, a) {
+      // ножка, наклонённая наружу: верх в (x,h,z), низ смещён
+      var p = grp(g, x, h, z);
+      p.rotation.z = -sx * a; p.rotation.x = sz * a;
+      var len = h / Math.cos(a) / Math.cos(a * 0.7);
+      var l = Cy(r * 0.6, r, len, mat, p, 0, -len, 0, 10);
+      return l;
+    }
+    function plant(parent, x, z, s, potMat, y) {
+      var g = grp(parent, x, y || 0, z);
+      g.scale.setScalar(s || 1);
+      Cy(0.17, 0.12, 0.3, potMat || mPot, g, 0, 0, 0, 20);
+      Cy(0.15, 0.15, 0.02, mSoil, g, 0, 0.285, 0, 20).castShadow = false;
+      Cy(0.015, 0.02, 0.5, mBark, g, 0, 0.3, 0, 8);
+      var r = rng(Math.round((x * 31 + z * 17) * 10) + 99), lm = [mLeafA, mLeafB, mLeafC];
+      for (var i = 0; i < 9; i++) {
+        var a = i * 2.399, rad = 0.1 + r() * 0.2, yy = 0.6 + r() * 0.5;
+        var leaf = add(sphGeo(0.17, 1), lm[i % 3], g, Math.cos(a) * rad, yy, Math.sin(a) * rad);
+        leaf.scale.set(1, 0.42 + r() * 0.2, 0.66);
+        leaf.rotation.set(r() * 0.9 - 0.45, a, r() * 0.9 - 0.2);
+      }
+      return g;
+    }
+    function tableLamp(parent, x, y, z) {
+      Cy(0.045, 0.07, 0.2, mCeramic, parent, x, y, z, 16);
+      Cy(0.09, 0.13, 0.17, mShade, parent, x, y + 0.2, z, 20, true).castShadow = false;
+    }
+    function pendant(x, z, drop, r, mat) {
+      var m = FM('#1D2120', 0.5);
+      Cy(0.005, 0.005, drop, m, roofG, x, CEIL - drop, z, 6).castShadow = false;
+      var s = Cy(r * 0.3, r, r * 0.8, mat, roofG, x, CEIL - drop - r * 0.75, z, 28, true);
+      var b = add(sphGeo(r * 0.3, -1), pendBulb, roofG, x, CEIL - drop - r * 0.6, z);
+      b.castShadow = false;
+      return s;
+    }
+    var pendBulb = FM('#FFF3D6', 0.5, { emissive: '#FFE2B0', ei: 1.0 });
+    function picture(parent, x, y, z, w, h, ry, seed) {
+      var g = grp(parent, x, y, z, ry);
+      B(w + 0.05, h + 0.05, 0.025, mOak, g, 0, -h / 2 - 0.025, 0);
+      var m = new THREE.MeshStandardMaterial({ map: artTex(seed), roughness: 0.9 });
+      mats.push(m);
+      var pg = G(new THREE.PlaneGeometry(w, h));
+      var pm = add(pg, m, g, 0, 0, 0.014);
+      pm.castShadow = false;
+      return g;
+    }
+    function chair(parent, x, z, ry, seatMat, legMat) {
+      var g = grp(parent, x, 0, z, ry);
+      R(0.44, 0.045, 0.43, 0.06, seatMat, g, 0, 0.42, 0);
+      var b = R(0.41, 0.3, 0.035, 0.03, seatMat, g, 0, 0.58, -0.205);
+      b.rotation.x = -0.12;
+      [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(function (s) {
+        Cy(0.016, 0.011, 0.43, legMat, g, s[0] * 0.18, 0, s[1] * 0.17, 8);
+      });
+      Cy(0.012, 0.012, 0.2, legMat, g, -0.15, 0.44, -0.2, 8).rotation.x = -0.12;
+      Cy(0.012, 0.012, 0.2, legMat, g, 0.15, 0.44, -0.2, 8).rotation.x = -0.12;
+      return g;
+    }
+    function sofa(parent, x, z, ry, w, fab, pillows) {
+      var g = grp(parent, x, 0, z, ry), d = 0.92;
+      [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(function (s) { Cy(0.022, 0.016, 0.11, mOakDark, g, s[0] * (w / 2 - 0.1), 0, s[1] * (d / 2 - 0.1), 8); });
+      R(w, 0.2, d, 0.05, fab, g, 0, 0.1, 0);
+      var n = w > 1.4 ? 2 : 1, cw = (w - 0.4) / n;
+      for (var i = 0; i < n; i++) {
+        var cx = -(w - 0.4) / 2 + cw * (i + 0.5);
+        R(cw - 0.02, 0.15, 0.64, 0.05, fab, g, cx, 0.29, 0.1);
+        var bc = R(cw - 0.03, 0.4, 0.16, 0.06, fab, g, cx, 0.42, -0.2);
+        bc.rotation.x = -0.14;
+      }
+      R(w, 0.5, 0.2, 0.07, fab, g, 0, 0.28, -d / 2 + 0.1);
+      R(0.2, 0.36, d, 0.07, fab, g, -w / 2 + 0.1, 0.28, 0);
+      R(0.2, 0.36, d, 0.07, fab, g, w / 2 - 0.1, 0.28, 0);
+      (pillows || []).forEach(function (p) {
+        var pl = R(0.4, 0.4, 0.13, 0.06, p[1], g, p[0], 0.43, 0.0);
+        pl.rotation.set(-0.3, p[2] || 0, p[3] || 0);
+      });
+      return g;
+    }
+    function bed(parent, x, z, ry, w, len, c) {
+      var g = grp(parent, x, 0, z, ry);
+      [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(function (s) { Cy(0.03, 0.022, 0.1, mOakDark, g, s[0] * (w / 2 - 0.05), 0, s[1] * (len / 2 - 0.05), 8); });
+      R(w + 0.1, 0.24, len + 0.1, 0.04, c.frame, g, 0, 0.1, 0);
+      R(w, 0.2, len, 0.07, mWhite, g, 0, 0.32, 0);
+      R(w + 0.05, 0.11, len * 0.64, 0.05, c.duvet, g, 0, 0.47, len * 0.18 + 0.02);
+      R(w + 0.07, 0.03, 0.42, 0.012, c.throw, g, 0, 0.575, len * 0.33);
+      R(w + 0.1, 0.92, 0.09, 0.04, c.head, g, 0, 0.1, -len / 2 - 0.045);
+      var n = w > 1.2 ? 2 : 1;
+      for (var i = 0; i < n; i++) {
+        var px = n === 2 ? (i ? 1 : -1) * w * 0.25 : 0;
+        var p = R(Math.min(0.62, w * 0.42 + (n === 1 ? 0.2 : 0)), 0.14, 0.4, 0.07, mLinen, g, px, 0.52, -len / 2 + 0.28);
+        p.rotation.x = 0.18;
+      }
+      if (c.pillow) { var a = R(0.36, 0.36, 0.12, 0.06, c.pillow, g, n === 2 ? 0.05 : 0.1, 0.56, -len / 2 + 0.5); a.rotation.set(-0.5, 0.2, 0); }
+      return g;
+    }
+    function cabinetFronts(g, x0, x1, y, h, z, n, mat, handleMat, vertical) {
+      var w = (x1 - x0) / n;
+      for (var i = 0; i < n; i++) {
+        var cx = x0 + w * (i + 0.5);
+        B(w - 0.012, h, 0.018, mat, g, cx, y, z + 0.009);
+        if (handleMat) {
+          if (vertical) B(0.014, 0.3, 0.022, handleMat, g, cx + (i % 2 ? -1 : 1) * (w / 2 - 0.05), y + h * 0.45, z + 0.03);
+          else B(0.16, 0.014, 0.022, handleMat, g, cx, y + h - 0.06, z + 0.03);
+        }
+      }
+    }
+
+    /* ---------------- кухня-гостиная ---------------- */
+    (function () {
+      var g = grp(house);
+      /* кухня вдоль северной стены */
+      var zf = -3.2;                                    // плоскость фасадов
+      B(4.05, 0.1, 0.5, mBlack, g, 3.725, 0, -3.53);
+      B(4.05, 0.76, 0.58, mMossDeep, g, 3.725, 0.1, -3.51);
+      cabinetFronts(g, 1.7, 5.75, 0.115, 0.735, zf - 0.02, 7, mMoss, mBrass);
+      B(4.07, 0.04, 0.64, mCounter, g, 3.735, 0.86, -3.49);
+      B(4.05, 0.5, 0.012, M('#E4E1D6', 0.4), g, 3.725, 0.9, -3.794);      // фартук
+      // мойка и смеситель
+      R(0.56, 0.012, 0.42, 0.06, mSteel, g, 3.6, 0.9, -3.5);
+      R(0.48, 0.014, 0.34, 0.05, M('#8E9391', 0.3), g, 3.6, 0.9, -3.5);
+      Cy(0.014, 0.016, 0.3, mBlack, g, 3.6, 0.9, -3.74, 10);
+      Cy(0.012, 0.012, 0.16, mBlack, g, 3.6, 1.19, -3.74, 10).rotation.x = Math.PI / 2;
+      // варочная панель
+      B(0.58, 0.008, 0.5, mBlack, g, 5.05, 0.9, -3.5);
+      [[-0.14, -0.11], [0.14, -0.11], [-0.14, 0.12], [0.14, 0.12]].forEach(function (p) {
+        Cy(0.075, 0.075, 0.002, M('#4A4F4E', 0.3), g, 5.05 + p[0], 0.908, -3.5 + p[1], 24).castShadow = false;
+      });
+      // вытяжка-цилиндр
+      Cy(0.16, 0.16, 0.55, mBlack, g, 5.05, 1.65, -3.52, 24);
+      Cy(0.07, 0.07, 0.5, mBlack, g, 5.05, 2.2, -3.52, 16);
+      // пенал с духовкой и холодильником
+      B(1.2, 2.25, 0.6, mMossDeep, g, 1.1, 0, -3.5);
+      cabinetFronts(g, 0.5, 1.7, 0.1, 2.13, zf - 0.0, 2, mMoss, mBrass, true);
+      B(0.5, 0.42, 0.012, mBlack, g, 1.4, 1.0, zf + 0.02);
+      B(0.4, 0.014, 0.03, mSteel, g, 1.4, 1.37, zf + 0.04);
+      // верхние шкафы
+      B(0.8, 0.72, 0.34, mWhite, g, 2.1, 1.45, -3.63);
+      cabinetFronts(g, 1.7, 2.5, 1.455, 0.71, -3.46, 2, mWall, null);
+      // мелочи на столешнице
+      Cy(0.06, 0.05, 0.16, mAccent, g, 2.2, 0.9, -3.55, 16);
+      Cy(0.045, 0.045, 0.22, mCeramic, g, 2.38, 0.9, -3.6, 16);
+      R(0.3, 0.02, 0.2, 0.02, mOak, g, 2.9, 0.9, -3.45).rotation.y = 0.2;
+      plant(g, 4.35, -3.62, 0.42, mTerra, 0.9);
+
+      /* остров */
+      var ix = 3.2, iz = -1.95;
+      B(2.2, 0.1, 0.7, mBlack, g, ix, 0, iz);
+      B(2.3, 0.76, 0.8, mMossDeep, g, ix, 0.1, iz);
+      cabinetFronts(g, ix - 1.15, ix + 1.15, 0.115, 0.735, iz - 0.4 - 0.018, 4, mMoss, null);
+      (function () { // фасады со стороны кухни имеют ручки: развёрнутая группа
+        var gg = grp(g, ix, 0, iz, Math.PI);
+        cabinetFronts(gg, -1.15, 1.15, 0.115, 0.735, 0.4, 4, mMoss, mBrass);
+        var back = B(2.3, 0.735, 0.018, mOak, gg, 0, 0.115, -0.409);
+        back.visible = true;
+      })();
+      R(2.5, 0.045, 1.0, 0.03, mCounter, g, ix, 0.86, iz);
+      // ваза с фруктами
+      Cy(0.17, 0.09, 0.07, mOak, g, ix + 0.55, 0.905, iz + 0.05, 24);
+      [[0, 0, '#E8862A'], [0.07, 0.04, '#D9A05B'], [-0.06, 0.05, '#C8553D'], [0.0, -0.07, '#9DB56A']].forEach(function (f) {
+        add(sphGeo(0.045, -1), M(f[2], 0.6), g, ix + 0.55 + f[0], 0.985, iz + 0.05 + f[1]);
+      });
+      Cy(0.05, 0.04, 0.24, mCeramic, g, ix - 0.7, 0.905, iz - 0.1, 16);
+      [0.05, -0.04, 0.0].forEach(function (o, i) {
+        var s = Cy(0.004, 0.004, 0.3, mLeafB, g, ix - 0.7 + o * 0.3, 1.14, iz - 0.1, 5);
+        s.rotation.z = o * 5; s.rotation.x = (i - 1) * 0.2;
+        add(sphGeo(0.035, 1), i === 1 ? mAccent : mOsb, g, ix - 0.7 - o * 1.45, 1.44, iz - 0.1 + (i - 1) * 0.06);
+      });
+      var pm = FM(accent, 0.7, { side: true });
+      pendant(ix - 0.6, iz, 0.72, 0.15, pm);
+      pendant(ix + 0.6, iz, 0.72, 0.15, pm);
+
+      /* обеденная группа */
+      var tx = 3.55, tz = 0.05;
+      var tg = grp(g, tx, 0, tz);
+      R(1.8, 0.04, 0.9, 0.05, mOak, tg, 0, 0.71, 0);
+      [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(function (s) { splayLeg(tg, s[0] * 0.72, s[1] * 0.3, 0.71, 0.03, mOak, s[0], s[1], 0.1); });
+      chair(g, tx - 0.42, tz - 0.72, 0, mFabricDark, mOakDark);
+      chair(g, tx + 0.42, tz - 0.72, 0, mFabricDark, mOakDark);
+      chair(g, tx - 0.42, tz + 0.72, Math.PI, mFabricDark, mOakDark);
+      chair(g, tx + 0.42, tz + 0.72, Math.PI, mFabricDark, mOakDark);
+      chair(g, tx - 1.15, tz, Math.PI / 2, mMoss, mOakDark);
+      chair(g, tx + 1.15, tz, -Math.PI / 2, mMoss, mOakDark);
+      R(0.9, 0.006, 0.34, 0.02, mLinen, tg, 0, 0.75, 0);
+      Cy(0.07, 0.05, 0.2, mCeramic, tg, 0, 0.756, 0, 20);
+      [[0.03, 0.2], [-0.04, -0.15], [0.0, 0.5]].forEach(function (o, i) {
+        var s = Cy(0.004, 0.004, 0.3, mLeafB, tg, o[0], 0.95, 0, 5);
+        s.rotation.z = o[1];
+        add(sphGeo(0.05, 1), [mLeafA, mLeafC, mLeafB][i], tg, o[0] - o[1] * 0.3, 1.27, 0).scale.set(1, 1.3, 1);
+      });
+      pendant(tx, tz, 0.85, 0.24, FM('#F2F3EE', 0.8, { side: true, emissive: '#FFD9A0', ei: 0.15 }));
+
+      /* зона отдыха */
+      R(3.3, 0.014, 2.5, 0.08, M('#CBC3AF', 1), g, 2.55, 0, 2.5).castShadow = false;
+      sofa(g, 1.0, 2.45, Math.PI / 2, 2.2, mMoss, [[-0.72, mAccent, 0.25, 0.1], [0.72, mLinen, -0.3, -0.1], [0.4, mOsb, -0.1, 0.05]]);
+      // журнальный стол
+      var ct = grp(g, 2.45, 0, 2.45);
+      Cy(0.46, 0.46, 0.035, mOak, ct, 0, 0.36, 0, 40);
+      for (var i = 0; i < 3; i++) { var a = i * Math.PI * 2 / 3 + 0.5; splayLeg(ct, Math.cos(a) * 0.3, Math.sin(a) * 0.3, 0.36, 0.022, mOakDark, Math.cos(a), Math.sin(a), 0.16); }
+      Cy(0.13, 0.08, 0.06, mAccent, ct, 0.12, 0.395, -0.08, 24);
+      R(0.26, 0.03, 0.19, 0.01, mMoss, ct, -0.15, 0.395, 0.12).rotation.y = 0.4;
+      R(0.24, 0.025, 0.17, 0.01, mLinen, ct, -0.15, 0.425, 0.12).rotation.y = 0.25;
+      // кресло
+      sofa(g, 3.75, 3.0, -Math.PI / 2 - 0.45, 0.86, M(accent, 0.9), [[0.0, mLinen, 0.1, 0]]);
+      // торшер
+      var fl = grp(g, 0.95, 0, 3.52);
+      Cy(0.15, 0.16, 0.02, mBlack, fl, 0, 0, 0, 24);
+      Cy(0.012, 0.012, 1.45, mBlack, fl, 0, 0.02, 0, 8);
+      Cy(0.15, 0.22, 0.28, mShade, fl, 0, 1.4, 0, 28, true).castShadow = false;
+      // растение у окна, картины над диваном
+      plant(g, 5.3, 3.35, 1.55, mPot);
+      picture(g, 0.455, 1.95, 2.0, 0.6, 0.8, Math.PI / 2, 41);
+      picture(g, 0.455, 1.95, 2.85, 0.6, 0.8, Math.PI / 2, 57);
+      // стеллаж у западной стены за спиной
+      var sh = grp(g, 0.62, 0, -1.75);
+      B(0.3, 1.9, 0.03, mOak, sh, 0, 0, -0.75); B(0.3, 1.9, 0.03, mOak, sh, 0, 0, 0.75);
+      [0.05, 0.5, 0.95, 1.4, 1.87].forEach(function (y) { B(0.3, 0.03, 1.5, mOak, sh, 0, y, 0); });
+      var r = rng(5), bm = [mMoss, mAccent, mLinen, mOsb, mFabricDark, mMossLight];
+      [0.53, 0.98, 1.43].forEach(function (y, row) {
+        var z = -0.68;
+        while (z < (row === 1 ? 0.1 : 0.55)) {
+          var t = 0.03 + r() * 0.035, hh = 0.2 + r() * 0.1;
+          B(0.19, hh, t, bm[Math.floor(r() * bm.length)], sh, 0.02, y, z + t / 2);
+          z += t + 0.004;
+        }
+      });
+      plant(sh, 0, 0.45, 0.4, mTerra, 0.98);
+      Cy(0.09, 0.06, 0.2, mCeramic, sh, 0, 0.08, 0.3, 16);
+      Cy(0.11, 0.11, 0.26, mAccent, sh, 0, 0.08, -0.35, 16);
+    })();
+
+    /* ---------------- прихожая ---------------- */
+    (function () {
+      var g = grp(house);
+      // шкаф-купе у восточной стены
+      B(0.6, 2.4, 2.3, mWhite, g, 0.05, 0, 2.55);
+      [[1.4, mOak], [2.167, mMirror], [2.933, mOak]].forEach(function (p, i) {
+        B(0.02, 2.3, 0.75, p[1], g, -0.26 - (i === 1 ? 0.012 : 0), 0.06, p[0] + 0.383);
+        B(0.016, 0.9, 0.02, mBlack, g, -0.285, 0.8, p[0] + (i === 2 ? 0.08 : 0.69));
+      });
+      // банкетка с обувью, вешалка
+      var bz = 2.75, bx = -1.94;
+      R(0.4, 0.05, 1.3, 0.02, mOak, g, bx, 0.42, bz);
+      R(0.38, 0.05, 1.26, 0.03, mMoss, g, bx, 0.47, bz);
+      B(0.36, 0.025, 1.24, mOak, g, bx, 0.16, bz);
+      [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(function (s) { B(0.035, 0.42, 0.035, mOakDark, g, bx + s[0] * 0.17, 0, bz + s[1] * 0.6); });
+      [[-0.35, mBlack], [-0.2, mBlack], [0.2, mOsb], [0.35, mOsb]].forEach(function (s) {
+        R(0.26, 0.09, 0.1, 0.04, s[1], g, bx + 0.02, 0.185, bz + s[0]);
+      });
+      B(0.025, 0.1, 1.4, mOak, g, -2.135, 1.62, bz);
+      B(0.22, 0.03, 1.4, mOak, g, -2.04, 1.86, bz);
+      [-0.55, -0.27, 0.0, 0.27, 0.55].forEach(function (o) {
+        Cy(0.014, 0.018, 0.09, mOakDark, g, -2.12, 1.66, bz + o, 10).rotation.z = -Math.PI / 2;
+      });
+      [[-0.55, mMoss, 0.95], [-0.27, M('#C9C3B4', 0.95), 0.8], [0.27, mAccent, 0.6]].forEach(function (c) {
+        var coat = R(0.13, c[2], 0.42, 0.06, c[1], g, -2.07, 1.62 - c[2], bz + c[0]);
+        coat.rotation.x = 0.03;
+      });
+      Cy(0.15, 0.17, 0.1, mFabricDark, g, -2.02, 1.89, bz + 0.3, 20);
+      Cy(0.21, 0.21, 0.012, mFabricDark, g, -2.02, 1.89, bz + 0.3, 24);
+      R(0.2, 0.14, 0.32, 0.04, mOsb, g, -2.03, 1.89, bz - 0.35);
+      // зеркало и консоль между дверями
+      var mir = Cy(0.33, 0.33, 0.02, mMirror, g, -2.14, 1.5, 0.08, 40); mir.rotation.z = -Math.PI / 2;
+      var fr = add(G(new THREE.TorusGeometry(0.33, 0.016, 8, 48)), mOak, g, -2.135, 1.5, 0.08); fr.rotation.y = Math.PI / 2;
+      R(0.26, 0.035, 0.9, 0.02, mOak, g, -2.01, 0.8, 0.08);
+      B(0.03, 0.8, 0.03, mBlack, g, -1.92, 0, -0.3); B(0.03, 0.8, 0.03, mBlack, g, -1.92, 0, 0.46);
+      Cy(0.05, 0.035, 0.16, mAccent, g, -2.0, 0.835, 0.3, 14);
+      R(0.18, 0.03, 0.13, 0.01, mMoss, g, -2.0, 0.835, -0.1);
+      // ковёр-дорожка, растение, пуф, зонты
+      R(1.0, 0.012, 2.8, 0.05, M('#C9B79A', 1), g, -0.95, 0, 1.2).castShadow = false;
+      R(0.82, 0.014, 2.62, 0.04, M('#D9CDB6', 1), g, -0.95, 0, 1.2).castShadow = false;
+      plant(g, -0.1, -1.2, 1.5, mPot);
+      Cy(0.11, 0.09, 0.45, mBlack, g, -1.75, 0, 3.58, 16, true);
+      Cy(0.015, 0.015, 0.8, mAccent, g, -1.74, 0.02, 3.57, 6).rotation.z = 0.08;
+      Cy(0.015, 0.015, 0.75, mMoss, g, -1.77, 0.02, 3.6, 6).rotation.x = 0.07;
+      picture(g, 0.345, 1.9, -1.0, 0.55, 0.72, -Math.PI / 2, 73);
+      pendant(-0.9, 1.3, 0.5, 0.17, FM('#F2F3EE', 0.8, { side: true, emissive: '#FFD9A0', ei: 0.2 }));
+    })();
+
+    /* ---------------- спальня ---------------- */
+    (function () {
+      var g = grp(house);
+      R(2.7, 0.014, 2.5, 0.08, M('#CBC3AF', 1), g, -4.1, 0, 1.9).castShadow = false;
+      bed(g, -4.6, 1.9, Math.PI / 2, 1.6, 2.0, { frame: mOak, duvet: mLinen, throw: mAccent, head: mMoss, pillow: mMossLight });
+      [0.78, 3.02].forEach(function (z, i) {
+        R(0.42, 0.34, 0.4, 0.04, mOak, g, -5.52, 0.14, z);
+        [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(function (s) { Cy(0.014, 0.01, 0.14, mBlack, g, -5.52 + s[0] * 0.16, 0, z + s[1] * 0.15, 8); });
+        B(0.012, 0.012, 0.14, mBrass, g, -5.305, 0.36, z);
+        tableLamp(g, -5.56, 0.48, z);
+        if (i) R(0.17, 0.03, 0.12, 0.01, mMoss, g, -5.42, 0.48, z + 0.1);
+      });
+      // шкаф вдоль перегородки
+      B(2.4, 2.35, 0.6, mWhite, g, -4.55, 0, -0.05);
+      cabinetFronts(g, -5.75, -3.35, 0.08, 2.24, 0.25, 4, mWall, mOak, true);
+      // комод с зеркалом
+      R(0.45, 0.72, 1.2, 0.03, mOak, g, -2.5, 0.12, 2.75);
+      [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(function (s) { Cy(0.018, 0.012, 0.12, mBlack, g, -2.5 + s[0] * 0.17, 0, 2.75 + s[1] * 0.52, 8); });
+      [0.2, 0.43, 0.66].forEach(function (y) { B(0.012, 0.012, 0.3, mBlack, g, -2.735, y + 0.07, 2.75); B(0.005, 0.004, 1.14, mOakDark, g, -2.727, y - 0.05, 2.75); });
+      var mir = Cy(0.3, 0.3, 0.02, mMirror, g, -2.26, 1.55, 2.75, 40); mir.rotation.z = Math.PI / 2;
+      var fr = add(G(new THREE.TorusGeometry(0.3, 0.015, 8, 48)), mBlack, g, -2.265, 1.55, 2.75); fr.rotation.y = Math.PI / 2;
+      Cy(0.06, 0.045, 0.2, mCeramic, g, -2.5, 0.84, 3.1, 16);
+      add(sphGeo(0.09, 1), mLeafA, g, -2.5, 1.12, 3.1).scale.set(1, 1.4, 1);
+      Cy(0.004, 0.004, 0.1, mLeafB, g, -2.5, 1.03, 3.1, 5);
+      R(0.2, 0.05, 0.14, 0.02, mAccent, g, -2.5, 0.84, 2.45);
+      pendant(-4.0, 1.9, 0.45, 0.2, FM('#F2F3EE', 0.8, { side: true, emissive: '#FFD9A0', ei: 0.2 }));
+    })();
+
+    /* ---------------- детская ---------------- */
+    (function () {
+      var g = grp(house);
+      Cy(0.95, 0.95, 0.014, M('#5E8C7A', 1), g, -3.85, 0, -2.2, 48).castShadow = false;
+      bed(g, -4.65, -1.02, Math.PI / 2, 0.9, 1.9, { frame: mOak, duvet: M('#F0E3C8', 0.95), throw: mMossLight, head: mOak, pillow: mAccent });
+      // изголовье-домик
+      (function () {
+        var sh = new THREE.Shape();
+        sh.moveTo(-0.56, 0); sh.lineTo(0.56, 0); sh.lineTo(0.56, 1.05); sh.lineTo(0, 1.55); sh.lineTo(-0.56, 1.05); sh.closePath();
+        var hg = G(new THREE.ExtrudeGeometry(sh, { depth: 0.05, bevelEnabled: false }));
+        hg.rotateY(Math.PI / 2);
+        add(hg, mOak, g, -5.795, 0, -1.02);
+        Cy(0.05, 0.05, 0.012, mAccent, g, -5.74, 1.2, -1.02, 20).rotation.z = -Math.PI / 2;
+      })();
+      // стол у окна
+      R(1.3, 0.035, 0.6, 0.03, mOak, g, -4.15, 0.72, -3.46);
+      B(0.4, 0.5, 0.52, mWhite, g, -3.72, 0.22, -3.46);
+      [0.3, 0.52].forEach(function (y) { Cy(0.018, 0.018, 0.02, mAccent, g, -3.72, y + 0.08, -3.19, 12).rotation.x = Math.PI / 2; });
+      B(0.04, 0.72, 0.5, mOak, g, -4.76, 0, -3.46); B(0.04, 0.72, 0.5, mOak, g, -3.54, 0, -3.46);
+      chair(g, -4.3, -2.85, Math.PI + 0.25, mAccent, mOak);
+      Cy(0.05, 0.06, 0.02, mMoss, g, -4.65, 0.755, -3.55, 16);
+      var arm = Cy(0.008, 0.008, 0.34, mMoss, g, -4.65, 0.77, -3.55, 6); arm.rotation.z = -0.35;
+      Cy(0.07, 0.03, 0.09, mMoss, g, -4.5, 1.06, -3.55, 16, true).rotation.z = -1.1;
+      Cy(0.04, 0.035, 0.1, mAccent, g, -3.85, 0.755, -3.6, 12);
+      R(0.28, 0.02, 0.2, 0.01, mLinen, g, -4.2, 0.755, -3.4).rotation.y = 0.15;
+      // шкаф
+      B(0.56, 1.95, 1.15, mWhite, g, -2.53, 0, -3.17);
+      [-3.46, -2.885].forEach(function (z, i) {
+        B(0.018, 1.83, 0.56, mWall, g, -2.82, 0.08, z);
+        add(sphGeo(0.022, -1), mOak, g, -2.845, 1.0, z + (i ? -0.2 : 0.2));
+      });
+      R(0.5, 0.36, 0.45, 0.05, mAccent, g, -2.55, 0, -2.2);
+      R(0.52, 0.03, 0.47, 0.012, mOak, g, -2.55, 0.36, -2.2);
+      // вигвам
+      var tp = grp(g, -5.12, 0, -2.2);
+      var cone = add(G(new THREE.ConeGeometry(0.62, 1.5, 5, 1, true)), M('#E6CFA9', 0.95, { side: true, flat: true }), tp, 0, 0.75, 0);
+      cone.rotation.y = 0.3;
+      for (var i = 0; i < 5; i++) { var a = i * Math.PI * 2 / 5 + 0.3 + Math.PI / 5 * 0; var pl = Cy(0.012, 0.012, 1.85, mOak, tp, Math.sin(a) * 0.3, 0, Math.cos(a) * 0.3, 6); pl.position.set(Math.sin(a) * 0.63, 0, Math.cos(a) * 0.63); pl.rotation.set(-Math.cos(a) * 0.39, 0, Math.sin(a) * 0.39); }
+      // игрушки
+      var cols = [accent, C_MOSS, '#D9A05B', '#F2F3EE', '#C8553D'];
+      [[-3.5, -2.0, 0.3], [-3.34, -2.1, 0.9], [-3.45, -2.04, 0.1], [-3.9, -2.75, 0.5]].forEach(function (b, i) {
+        var m = B(0.13, 0.13, 0.13, M(cols[i % 5], 0.8), g, b[0], i === 2 ? 0.144 : 0.014, b[1]); m.rotation.y = b[2];
+      });
+      add(sphGeo(0.13, -1), M(accent, 0.6), g, -4.3, 0.144, -1.95);
+      [0.16, 0.13, 0.1, 0.07].forEach(function (rr, i) { Cy(rr, rr, 0.05, M(cols[i], 0.7), g, -3.2, 0.014 + i * 0.05, -2.6, 20); });
+      picture(g, -3.2, 1.85, -0.455, 0.5, 0.62, Math.PI, 91);
+      // гирлянда-флажки над кроватью
+      for (var k = 0; k < 7; k++) {
+        var fx = -5.4 + k * 0.27, fy = 1.98 - Math.sin(k / 6 * Math.PI) * 0.12;
+        var f = add(G(new THREE.ConeGeometry(0.07, 0.14, 3)), M(cols[k % 4], 0.9, { side: true }), g, fx, fy, -0.465);
+        f.rotation.set(Math.PI, 0, 0); f.scale.z = 0.08; f.castShadow = false;
+      }
+      pendant(-3.9, -2.2, 0.45, 0.2, FM(C_MOSS, 0.8, { side: true }));
+    })();
+
+    /* ---------------- санузел ---------------- */
+    (function () {
+      var g = grp(house);
+      B(2.5, 1.25, 0.012, M('#3D6B5D', 0.35), g, -0.9, 0, -3.794);
+      B(0.012, 1.25, 0.8, M('#3D6B5D', 0.35), g, -2.144, 0, -3.4);
+      // ванна
+      var tub = add(ringGeo(1.7, 0.76, 0.22, 0.07, 0.56), mCeramic, g, -1.27, 0, -3.4);
+      R(1.58, 0.03, 0.64, 0.17, mCeramic, g, -1.27, 0.14, -3.4);
+      Cy(0.025, 0.025, 0.006, mSteel, g, -1.75, 0.172, -3.4, 12);
+      Cy(0.014, 0.014, 0.2, mSteel, g, -1.27, 0.56, -3.73, 8);
+      Cy(0.012, 0.012, 0.14, mSteel, g, -1.27, 0.75, -3.73, 8).rotation.x = Math.PI / 2;
+      // душевая стойка и стеклянная шторка
+      Cy(0.011, 0.011, 1.25, mSteel, g, -2.05, 0.9, -3.4, 8);
+      var sarm = Cy(0.011, 0.011, 0.28, mSteel, g, -2.05, 2.14, -3.4, 8); sarm.rotation.z = -Math.PI / 2;
+      Cy(0.11, 0.11, 0.015, mSteel, g, -1.77, 2.1, -3.4, 24);
+      var gs = B(0.85, 1.45, 0.012, mGlass, g, -1.68, 0.56, -3.04); gs.castShadow = false; gs.renderOrder = 5;
+      // тумба с раковиной
+      var vz = -2.38;
+      R(0.46, 0.42, 1.0, 0.03, mOak, g, -1.91, 0.42, vz);
+      R(0.5, 0.035, 1.04, 0.015, mCeramic, g, -1.9, 0.84, vz);
+      add(ringGeo(0.34, 0.5, 0.12, 0.025, 0.11), mCeramic, g, -1.9, 0.875, vz);
+      R(0.3, 0.02, 0.46, 0.1, mCeramic, g, -1.9, 0.875, vz);
+      Cy(0.013, 0.015, 0.22, mBlack, g, -2.08, 0.875, vz, 8);
+      Cy(0.011, 0.011, 0.13, mBlack, g, -2.08, 1.085, vz, 8).rotation.z = -Math.PI / 2;
+      [vz - 0.25, vz + 0.25].forEach(function (z) { B(0.012, 0.012, 0.2, mBlack, g, -1.675, 0.72, z); });
+      var mir = Cy(0.34, 0.34, 0.02, mMirror, g, -2.14, 1.55, vz, 40); mir.rotation.z = -Math.PI / 2;
+      var fr = add(G(new THREE.TorusGeometry(0.34, 0.016, 8, 48)), mBlack, g, -2.135, 1.55, vz); fr.rotation.y = Math.PI / 2;
+      Cy(0.035, 0.035, 0.13, mAccent, g, -1.95, 0.875, vz + 0.4, 12);
+      plant(g, -1.95, vz - 0.4, 0.3, mPot, 0.875);
+      // унитаз
+      var t = grp(g, 0.35, 0, -2.6, -Math.PI / 2);
+      R(0.38, 0.4, 0.17, 0.04, mCeramic, t, 0, 0.42, 0.09);
+      var bowl = Cy(0.19, 0.14, 0.4, mCeramic, t, 0, 0, 0.4, 24); bowl.scale.z = 1.3;
+      var lid = Cy(0.195, 0.195, 0.035, mCeramic, t, 0, 0.4, 0.4, 24); lid.scale.z = 1.3;
+      B(0.12, 0.025, 0.012, mSteel, t, 0, 0.9, 0.0);
+      // полотенца, корзина, коврик
+      B(0.03, 0.03, 0.6, mBlack, g, 0.32, 1.25, -3.35);
+      R(0.035, 0.55, 0.24, 0.012, mMoss, g, 0.31, 0.72, -3.48);
+      R(0.035, 0.45, 0.24, 0.012, mLinen, g, 0.31, 0.82, -3.2);
+      Cy(0.2, 0.16, 0.48, mOsb, g, 0.02, 0, -3.42, 20);
+      Cy(0.205, 0.205, 0.03, mOakDark, g, 0.02, 0.48, -3.42, 20);
+      R(0.75, 0.016, 0.48, 0.06, mLinen, g, -1.2, 0, -2.7).castShadow = false;
+      pendant(-0.9, -2.75, 0.3, 0.14, FM('#F2F3EE', 0.8, { side: true, emissive: '#FFD9A0', ei: 0.25 }));
+    })();
+
+    /* ---------------- терраса: мебель ---------------- */
+    (function () {
+      var g = grp(house, 0, -0.02, 0);
+      function lounge(x, z, ry) {
+        var c = grp(g, x, 0, z, ry);
+        [-1, 1].forEach(function (s) {
+          B(0.05, 0.56, 0.05, mOakDark, c, s * 0.36, 0, 0.3);
+          B(0.05, 0.56, 0.05, mOakDark, c, s * 0.36, 0, -0.34);
+          R(0.09, 0.03, 0.78, 0.012, mOak, c, s * 0.36, 0.56, -0.02);
+        });
+        B(0.72, 0.05, 0.7, mOakDark, c, 0, 0.24, -0.02);
+        R(0.64, 0.12, 0.62, 0.05, mLinen, c, 0, 0.29, 0.0);
+        var b = R(0.64, 0.5, 0.12, 0.05, mLinen, c, 0, 0.36, -0.3); b.rotation.x = -0.22;
+        var p = R(0.34, 0.34, 0.1, 0.05, ry > 1.4 ? mAccent : mMoss, c, 0.02, 0.44, -0.16); p.rotation.x = -0.3;
+      }
+      R(2.3, 0.012, 3.0, 0.06, M('#BFB8A4', 1), g, 7.5, 0, -2.0).castShadow = false;
+      lounge(7.05, -1.25, Math.PI / 2 + 0.25);
+      lounge(7.05, -2.85, Math.PI / 2 - 0.25);
+      var t = grp(g, 7.75, 0, -2.05);
+      Cy(0.3, 0.3, 0.03, mOak, t, 0, 0.44, 0, 32);
+      Cy(0.03, 0.03, 0.44, mBlack, t, 0, 0, 0, 10); Cy(0.2, 0.22, 0.02, mBlack, t, 0, 0, 0, 24);
+      Cy(0.045, 0.035, 0.08, mCeramic, t, 0.08, 0.47, 0.05, 14);
+      Cy(0.045, 0.035, 0.08, mAccent, t, -0.1, 0.47, -0.06, 14);
+      // кашпо с кустами у северного края
+      var pb = add(ringGeo(2.4, 0.5, 0.05, 0.04, 0.45), mBlack, g, 7.45, 0, -3.62);
+      B(2.3, 0.02, 0.4, mSoil, g, 7.45, 0.4, -3.62);
+      [-0.85, -0.3, 0.3, 0.85].forEach(function (o, i) {
+        add(sphGeo(0.3, 1), i % 2 ? mLeafA : mLeafB, g, 7.45 + o, 0.62, -3.62).scale.set(1, 0.9 + (i % 2) * 0.25, 0.85);
+      });
+      plant(g, 6.42, 3.5, 1.5, mTerra);
+      // фонарь
+      B(0.16, 0.26, 0.16, mBlack, g, 8.5, 0, 3.4);
+      B(0.11, 0.18, 0.11, mBulb, g, 8.5, 0.04, 3.4).castShadow = false;
+    })();
+
+    /* ---------------- участок ---------------- */
+    (function () {
+      var PX = 1.5, PZ = 1.1, PW = 29, PD = 24.2;
+      var pg = G(new THREE.ExtrudeGeometry(rrShape(PW, PD, 2.6), { depth: 0.6, bevelEnabled: false, curveSegments: 10 }));
+      pg.rotateX(-Math.PI / 2);
+      pg.translate(0, -0.6, 0);
+      var plot = add(pg, [mLawn, mSoil], scene, PX, 0, PZ);
+      plot.castShadow = false;
+      // отмостка, крыльцо, дорожка
+      R(13.4, 0.035, 9.4, 0.3, mGravel, scene, 0, 0, 0).castShadow = false;
+      B(2.2, FL - 0.03, 1.25, mConcrete, scene, -0.9, 0, 4.6);
+      B(2.2, (FL - 0.03) / 2, 0.4, mConcrete, scene, -0.9, 0, 5.42);
+      R(1.6, 0.012, 0.75, 0.04, mMossDeep, scene, -0.9, FL - 0.03, 4.62).castShadow = false;
+      for (var i = 0; i < 10; i++) R(1.25, 0.05, 0.52, 0.05, mStone, scene, -0.9, -0.02, 6.05 + i * 0.7);
+      // дорожка к террасе
+      [[10.0, 0.6], [10.75, 0.75], [11.5, 1.1]].forEach(function (p) { R(0.55, 0.05, 1.3, 0.05, mStone, scene, p[0], -0.02, p[1]); });
+      // садовые светильники
+      [[-1.85, 6.4], [0.05, 8.5], [-1.85, 10.6]].forEach(function (p) {
+        Cy(0.035, 0.04, 0.42, mBlack, scene, p[0], 0, p[1], 10);
+        Cy(0.05, 0.05, 0.07, mBulb, scene, p[0], 0.42, p[1], 12).castShadow = false;
+        Cy(0.07, 0.07, 0.015, mBlack, scene, p[0], 0.49, p[1], 12);
+      });
+      // живая изгородь
+      var hx0 = PX - PW / 2 + 0.75, hx1 = PX + PW / 2 - 0.75, hz0 = PZ - PD / 2 + 0.75, hz1 = PZ + PD / 2 - 0.75, hh = 0.78, hw = 0.6;
+      R(hx1 - hx0 - 3.2, hh, hw, 0.22, mHedge, scene, (hx0 + hx1) / 2, 0, hz0);
+      R(hw, hh, hz1 - hz0 - 3.2, 0.22, mHedge, scene, hx0, 0, (hz0 + hz1) / 2);
+      R(hw, hh, hz1 - hz0 - 3.2, 0.22, mHedge, scene, hx1, 0, (hz0 + hz1) / 2);
+      R(-2.1 - (hx0 + 1.6), hh, hw, 0.22, mHedge, scene, (hx0 + 1.6 - 2.1) / 2, 0, hz1);
+      R(hx1 - 1.6 - 0.3, hh, hw, 0.22, mHedge, scene, (hx1 - 1.6 + 0.3) / 2, 0, hz1);
+      // кусты у дома
+      function bush(x, z, s, m) {
+        var b = add(sphGeo(0.5, 1), m, scene, x, 0.3 * s, z);
+        b.scale.set(s, s * 0.8, s);
+        b.rotation.y = x * 3;
+      }
+      bush(-6.75, 4.75, 0.9, mLeafB); bush(-5.9, 5.0, 0.65, mLeafA); bush(1.0, 4.85, 0.6, mLeafB);
+      bush(-6.8, -4.7, 0.8, mLeafA); bush(5.6, -4.85, 0.7, mLeafB); bush(4.9, -4.9, 0.5, mLeafC);
+      bush(9.6, -4.3, 0.8, mLeafB); bush(9.7, 4.4, 0.7, mLeafA); bush(2.0, 4.95, 0.45, mLeafC);
+      // деревья
+      function spruce(x, z, s) {
+        var g = grp(scene, x, 0, z); g.scale.setScalar(s); g.rotation.y = x;
+        Cy(0.09, 0.12, 0.9, mBark, g, 0, 0, 0, 8);
+        [[1.5, 1.7, 0.6], [1.2, 1.6, 1.5], [0.9, 1.5, 2.4], [0.58, 1.4, 3.3]].forEach(function (c, i) {
+          var k = 'cone' + c[0];
+          if (!geoCache[k]) { geoCache[k] = G(new THREE.ConeGeometry(c[0], c[1], 9)); geoCache[k].translate(0, c[1] / 2, 0); }
+          add(geoCache[k], i % 2 ? mSpruce2 : mSpruce, g, 0, c[2], 0).rotation.y = i * 0.4;
+        });
+      }
+      function tree(x, z, s) {
+        var g = grp(scene, x, 0, z); g.scale.setScalar(s); g.rotation.y = z;
+        Cy(0.09, 0.15, 2.3, mBark, g, 0, 0, 0, 8);
+        var b1 = Cy(0.04, 0.06, 0.9, mBark, g, 0, 1.6, 0, 6); b1.rotation.z = 0.7;
+        var b2 = Cy(0.04, 0.06, 0.8, mBark, g, 0, 1.75, 0, 6); b2.rotation.z = -0.6; b2.rotation.y = 1;
+        [[0, 3.2, 0, 1.25, mLeafA], [0.85, 2.75, 0.3, 0.85, mLeafC], [-0.75, 2.8, -0.35, 0.9, mLeafB], [0.1, 3.9, -0.2, 0.8, mLeafC], [-0.2, 2.9, 0.8, 0.7, mLeafA]].forEach(function (c) {
+          add(sphGeo(1, 1), c[4], g, c[0], c[1], c[2]).scale.setScalar(c[3]);
+        });
+      }
+      spruce(-9.7, -6.6, 1.25); spruce(-7.6, -8.2, 0.9); spruce(12.6, -7.2, 1.15); spruce(-10.3, 9.6, 0.95);
+      spruce(13.3, 9.6, 0.8);
+      tree(-9.8, 4.3, 1.0); tree(13.0, 2.2, 0.9); tree(4.6, -8.2, 1.1); tree(-3.4, -8.4, 0.8);
+    })();
+
+    /* ---------------------------------------------------------------- */
+    /*  Крыша: плавное появление/исчезновение                           */
+    /* ---------------------------------------------------------------- */
+    var roofOpacity = 1, roofCasts = true;
+    function setRoof(o) {
+      o = Math.max(0, Math.min(1, o));
+      if (o === roofOpacity) return;
+      roofOpacity = o;
+      var tr = o < 0.999;
+      for (var i = 0; i < fadeMats.length; i++) {
+        var m = fadeMats[i];
+        m.opacity = o;
+        if (m.transparent !== tr) { m.transparent = tr; m.needsUpdate = true; }
+        m.depthWrite = o > 0.6;
+      }
+      roofG.visible = o > 0.004;
+      var casts = o >= 0.5;
+      if (casts !== roofCasts) {
+        roofCasts = casts;
+        roofG.traverse(function (n) { if (n.isMesh && n.userData.cs !== false) n.castShadow = casts; });
+        renderer.shadowMap.needsUpdate = true;
+      }
+    }
+    roofG.traverse(function (n) { if (n.isMesh) n.userData.cs = n.castShadow; });
+
+    /* ---------------------------------------------------------------- */
+    /*  Камера и состояние                                              */
+    /* ---------------------------------------------------------------- */
+    var size = { w: 1, h: 1 };
+    var current = startId;
+    var st = { theta: 0, phi: 1, yaw: 0, pitch: 0 };   // текущее состояние вида
+    var trans = null;                                 // активный перелёт
+    var autoRotate = !reduced;
+    var lastInput = -1e9;
+    var dragging = false, vel = 0;
+    var dirty = true, running = false, raf = 0, lastT = 0;
+    var inView = true, readyFired = false, disposed = false, initialEmitted = false;
+    var handlers = { change: [], ready: [] };
+    var skyMix = VIEWS[startId].sky;
+    var V3 = THREE.Vector3;
+    var tmpV = new V3(), tmpV2 = new V3(), tmpE = new THREE.Euler(0, 0, 0, 'YXZ'), tmpM = new THREE.Matrix4(), UP = new V3(0, 1, 0);
+
+    function aspect() { return size.w / Math.max(1, size.h); }
+    function lookFov() {
+      var a = aspect();
+      var v = 2 * Math.atan(Math.tan(33 * Math.PI / 180) / a) * 180 / Math.PI;
+      return Math.max(62, Math.min(86, v));
+    }
+    function orbitRadius(v) {
+      var tv = Math.tan(v.fov * Math.PI / 360), th = tv * aspect();
+      return Math.max(v.r, v.halfW / th, v.halfH / tv);
+    }
+    function lookAngles(v) {
+      var dx = v.look[0] - v.pos[0], dz = v.look[2] - v.pos[1], dy = v.look[1] - EYE;
+      return { yaw: Math.atan2(-dx, -dz), pitch: Math.atan2(dy, Math.sqrt(dx * dx + dz * dz)) };
+    }
+    /* поза камеры для вида v при состоянии s */
+    function poseOf(id, s, out) {
+      var v = VIEWS[id];
+      out = out || { pos: new V3(), quat: new THREE.Quaternion(), fov: 34 };
+      if (v.mode === 'orbit') {
+        var r = orbitRadius(v), sp = Math.sin(s.phi);
+        tmpV.set(v.target[0], v.target[1], v.target[2]);
+        out.pos.set(tmpV.x + r * sp * Math.sin(s.theta), tmpV.y + r * Math.cos(s.phi), tmpV.z + r * sp * Math.cos(s.theta));
+        tmpM.lookAt(out.pos, tmpV, UP);
+        out.quat.setFromRotationMatrix(tmpM);
+        out.fov = v.fov;
+      } else {
+        out.pos.set(v.pos[0], FL + EYE, v.pos[1]);
+        tmpE.set(s.pitch, s.yaw, 0, 'YXZ');
+        out.quat.setFromEuler(tmpE);
+        out.fov = lookFov();
+      }
+      return out;
+    }
+    function initState(id) {
+      var v = VIEWS[id];
+      if (v.mode === 'orbit') { st.theta = v.theta; st.phi = v.phi; }
+      else { var a = lookAngles(v); st.yaw = a.yaw; st.pitch = a.pitch; }
+      vel = 0;
+    }
+    var pose = { pos: new V3(), quat: new THREE.Quaternion(), fov: 34 };
+    function applyPose(p) {
+      camera.position.copy(p.pos);
+      camera.quaternion.copy(p.quat);
+      if (Math.abs(camera.fov - p.fov) > 1e-4 || Math.abs(camera.aspect - aspect()) > 1e-6) {
+        camera.fov = p.fov; camera.aspect = aspect(); camera.updateProjectionMatrix();
+      }
+    }
+    function ease(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+    function sstep(a, b, x) { var t = Math.max(0, Math.min(1, (x - a) / (b - a))); return t * t * (3 - 2 * t); }
+
+    function emit(type, arg) {
+      handlers[type].slice().forEach(function (fn) {
+        try { fn(arg); } catch (err) { if (root.console) console.error(err); }
+      });
+    }
+
+    /* ---------------- метки ---------------- */
+    var spots = [];
+    var tag = document.createElement('div');
+    tag.className = 'hbt-tag hbt-hide';
+    tag.setAttribute('aria-hidden', 'true');
+    tag.innerHTML = '<i></i><span>Стена — СИП-панель: OSB + утеплитель</span>';
+    layer.appendChild(tag);
+    var TAG_POS = new V3(-5.9, FL + WALL_H, 3.9);
+    var ray = new THREE.Raycaster();
+
+    function buildSpots() {
+      spots.forEach(function (s) { if (s.el.parentNode) s.el.parentNode.removeChild(s.el); });
+      spots = (NEI[current] || []).map(function (n) {
+        var pt = byId[n.to];
+        var el = document.createElement('button');
+        el.type = 'button';
+        el.className = 'hbt-spot hbt-hide';
+        el.setAttribute('aria-label', 'Перейти: ' + pt.title + ', ' + pt.area);
+        el.innerHTML = '<span class="hbt-dot" aria-hidden="true"></span><span class="hbt-label"></span>';
+        el.lastChild.textContent = pt.title;
+        el.addEventListener('click', function () { goTo(n.to); });
+        layer.appendChild(el);
+        return { el: el, label: el.lastChild, title: pt.title, to: n.to, pos: new V3(n.p[0], n.p[1] + FL, n.p[2]), shown: false, edge: 0, w: 0, h: 0, compact: false, dist: 0, x: 0, y: 0 };
+      });
+    }
+    function setEdge(s, side) {
+      if (s.edge === side) return;
+      s.edge = side;
+      s.el.classList.toggle('hbt-edge', side !== 0);
+      s.label.textContent = side < 0 ? '‹ ' + s.title : side > 0 ? s.title + ' ›' : s.title;
+      s.w = 0;
+    }
+    function updateSpots() {
+      var active = !trans, i, s, k, q;
+      var look = VIEWS[current].mode === 'look';
+      var placed = [], list = [], edges = [];
+      for (i = 0; i < spots.length; i++) {
+        s = spots[i];
+        var show = active, side = 0;
+        if (show) {
+          tmpV.copy(s.pos).applyMatrix4(camera.matrixWorldInverse);
+          s.dist = -tmpV.z;
+          var cx = tmpV.x, behind = tmpV.z > -0.3;
+          if (!behind) {
+            tmpV.copy(s.pos).project(camera);
+            s.x = (tmpV.x * 0.5 + 0.5) * size.w;
+            s.y = (-tmpV.y * 0.5 + 0.5) * size.h;
+          }
+          if (behind || s.x < 30 || s.x > size.w - 30) {
+            // в комнате метка вне кадра прижимается к краю экрана, чтобы выход всегда был под рукой
+            if (look) side = cx < 0 ? -1 : 1; else show = false;
+          } else if (look) s.y = Math.max(40, Math.min(size.h - 64, s.y));
+          else if (s.y < 26 || s.y > size.h - 44) show = false;
+        }
+        if (show && !side && current !== 'plan') {
+          // загорожена ли метка стеной/крышей
+          tmpV.copy(s.pos).sub(camera.position);
+          var d = tmpV.length();
+          ray.set(camera.position, tmpV.normalize());
+          ray.near = 0.05; ray.far = d - 0.2;
+          var hit = ray.intersectObjects(occluders, false).length > 0;
+          if (!hit && roofOpacity > 0.5) hit = ray.intersectObjects(roofOccluders, false).length > 0;
+          if (hit) show = false;
+        }
+        if (show) { setEdge(s, side); (side ? edges : list).push(s); }
+        else if (s.shown) { s.shown = false; s.el.classList.add('hbt-hide'); s.el.tabIndex = -1; }
+      }
+      // ближние метки получают подпись первыми; пересекающиеся — сворачиваются в точку
+      list.sort(function (a, b) { return a.dist - b.dist; });
+      list = list.concat(edges);
+      for (i = 0; i < list.length; i++) {
+        s = list[i];
+        if (!s.w) { s.el.classList.remove('hbt-compact'); s.w = s.el.offsetWidth || 90; s.h = s.el.offsetHeight || 70; s.compact = false; }
+        var hitAny = false, full;
+        if (s.edge) {
+          s.x = s.edge < 0 ? 10 + s.w / 2 : size.w - 10 - s.w / 2;
+          s.y = Math.round(size.h * 0.58);
+          for (var tries = 0; tries < 6; tries++) {
+            full = { l: s.x - s.w / 2 - 4, r: s.x + s.w / 2 + 4, t: s.y - 24, b: s.y - 22 + s.h + 2 };
+            for (k = 0, hitAny = false; k < placed.length; k++) { q = placed[k]; if (full.l < q.r && full.r > q.l && full.t < q.b && full.b > q.t) { hitAny = true; break; } }
+            if (!hitAny) break;
+            s.y -= s.h + 8;
+          }
+          hitAny = false;
+        } else {
+          full = { l: s.x - s.w / 2 - 4, r: s.x + s.w / 2 + 4, t: s.y - 24, b: s.y - 22 + s.h + 2 };
+          for (k = 0; k < placed.length; k++) { q = placed[k]; if (full.l < q.r && full.r > q.l && full.t < q.b && full.b > q.t) { hitAny = true; break; } }
+        }
+        if (hitAny !== s.compact) { s.compact = hitAny; s.el.classList.toggle('hbt-compact', hitAny); }
+        placed.push(hitAny ? { l: s.x - 22, r: s.x + 22, t: s.y - 22, b: s.y + 22 } : full);
+        s.el.style.transform = 'translate3d(' + Math.round(s.x) + 'px,' + Math.round(s.y) + 'px,0) translate(-50%,-22px)';
+        s.el.style.zIndex = String(1000 - Math.round(Math.max(0, Math.min(900, s.dist * 10))));
+        if (!s.shown) { s.shown = true; s.el.classList.remove('hbt-hide'); s.el.tabIndex = 0; }
+      }
+      // подпись среза СИП-панели — только в «Планировке»
+      var showTag = active && current === 'plan' && size.w >= 520;
+      if (showTag) {
+        tmpV.copy(TAG_POS).project(camera);
+        var tx = (tmpV.x * 0.5 + 0.5) * size.w, ty = (-tmpV.y * 0.5 + 0.5) * size.h;
+        if (tmpV.z > 1 || tx < 24 || tx > size.w - 24 || ty < 60 || ty > size.h) showTag = false;
+        else {
+          var tw = tag.offsetWidth || 260;
+          var lx = Math.max(10, Math.min(size.w - tw - 10, tx - tw / 2));
+          tag.style.setProperty('--hbt-stem', Math.round(Math.max(10, Math.min(tw - 10, tx - lx))) + 'px');
+          tag.style.transform = 'translate3d(' + Math.round(lx) + 'px,' + Math.round(ty) + 'px,0) translateY(-100%) translateY(-16px)';
+        }
+      }
+      tag.classList.toggle('hbt-hide', !showTag);
+    }
+
+    /* ---------------- переходы ---------------- */
+    function goTo(id) {
+      if (disposed || !VIEWS[id]) return false;
+      if (id === current && !trans) return true;
+      var from = current, vf = VIEWS[from], vt = VIEWS[id];
+      var p0 = { pos: camera.position.clone(), quat: camera.quaternion.clone(), fov: camera.fov };
+      current = id;
+      tour.current = id;
+      initState(id);
+      var p1 = poseOf(id, st);
+      p1 = { pos: p1.pos.clone(), quat: p1.quat.clone(), fov: p1.fov };
+      var via = VIA[[from, id].sort().join('|')], viaV = null, split = 0.5;
+      if (via) {
+        viaV = new V3(via[0], FL + EYE, via[1]);
+        var d0 = p0.pos.distanceTo(viaV), d1 = viaV.distanceTo(p1.pos);
+        split = Math.max(0.3, Math.min(0.7, d0 / (d0 + d1 || 1)));
+      }
+      trans = {
+        t: 0, dur: reduced ? 0 : 1.4, p0: p0, p1: p1, via: viaV, split: split,
+        roof0: roofOpacity, roof1: vt.roof, sky0: skyMix, sky1: vt.sky,
+        fromLook: vf.mode === 'look', toLook: vt.mode === 'look'
+      };
+      buildSpots();
+      tag.classList.add('hbt-hide');
+      emit('change', byId[id]);
+      dirty = true;
+      lastInput = performance.now();
+      if (reduced) stepTransition(1);
+      kick();
+      return true;
+    }
+    function stepTransition(dt) {
+      var tr = trans;
+      tr.t = tr.dur > 0 ? Math.min(1, tr.t + dt / tr.dur) : 1;
+      var t = tr.t, e = ease(t);
+      if (tr.via) {
+        if (e < tr.split) pose.pos.lerpVectors(tr.p0.pos, tr.via, e / tr.split);
+        else pose.pos.lerpVectors(tr.via, tr.p1.pos, (e - tr.split) / (1 - tr.split));
+      } else pose.pos.lerpVectors(tr.p0.pos, tr.p1.pos, e);
+      pose.quat.copy(tr.p0.quat).slerp(tr.p1.quat, e);
+      pose.fov = tr.p0.fov + (tr.p1.fov - tr.p0.fov) * e;
+      if (tr.roof1 < tr.roof0) setRoof(tr.roof0 * (1 - sstep(0, tr.fromLook ? 0.2 : 0.55, t)));
+      else if (tr.roof1 > tr.roof0) setRoof(tr.roof0 + (1 - tr.roof0) * sstep(tr.toLook ? 0.82 : 0.4, 1, t));
+      skyMix = tr.sky0 + (tr.sky1 - tr.sky0) * sstep(0.1, 0.9, t);
+      if (t >= 1) {
+        setRoof(tr.roof1);
+        skyMix = tr.sky1;
+        trans = null;
+        lastInput = performance.now();
+      }
+    }
+
+    /* ---------------- кадр ---------------- */
+    function frame(now) {
+      raf = 0;
+      if (!running || disposed) return;
+      var dt = Math.min(0.05, Math.max(0, (now - lastT) / 1000));
+      lastT = now;
+      var need = dirty;
+      dirty = false;
+      var v = VIEWS[current];
+      if (trans) { stepTransition(dt); need = true; }
+      else {
+        if (Math.abs(vel) > 0.0004 && !dragging) {
+          if (v.mode === 'orbit') st.theta += vel * dt; else st.yaw += vel * dt;
+          vel *= Math.pow(0.02, dt);
+          need = true;
+        }
+        if (v.mode === 'orbit' && v.auto && autoRotate && !reduced && !dragging && now - lastInput > 2400) {
+          var k = Math.min(1, (now - lastInput - 2400) / 1500);
+          st.theta += dt * 0.085 * k;
+          need = true;
+        }
+        if (need) poseOf(current, st, pose);
+      }
+      if (need) {
+        applyPose(pose);
+        sky.position.copy(camera.position);
+        skyU.uMix.value = skyMix;
+        camera.updateMatrixWorld();
+        renderer.render(scene, camera);
+        updateSpots();
+        if (!readyFired) { readyFired = true; emit('ready', tour); }
+      }
+      raf = root.requestAnimationFrame(frame);
+    }
+    function kick() {
+      var should = inView && !document.hidden && !disposed;
+      if (should && !running) { running = true; lastT = performance.now(); dirty = true; }
+      if (!should) running = false;
+      if (running && !raf) raf = root.requestAnimationFrame(frame);
+      if (!running && raf) { root.cancelAnimationFrame(raf); raf = 0; }
+    }
+
+    /* ---------------- размеры и наблюдатели ---------------- */
+    function resize() {
+      var w = Math.max(1, Math.round(rootEl.clientWidth)), h = Math.max(1, Math.round(rootEl.clientHeight));
+      if (w === size.w && h === size.h) return;
+      size.w = w; size.h = h;
+      renderer.setSize(w, h, false);
+      skyU.uRes.value.set(w * PR, h * PR);
+      spots.forEach(function (s) { s.w = 0; });
+      if (trans) {
+        var p = poseOf(current, st);
+        trans.p1.pos.copy(p.pos); trans.p1.quat.copy(p.quat); trans.p1.fov = p.fov;
+      }
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      dirty = true;
+    }
+    var ro = null, io = null;
+    if (root.ResizeObserver) { ro = new root.ResizeObserver(resize); ro.observe(rootEl); }
+    else root.addEventListener('resize', resize);
+    if (root.IntersectionObserver) {
+      io = new root.IntersectionObserver(function (es) {
+        inView = es[es.length - 1].isIntersecting;
+        kick();
+      }, { threshold: 0.01 });
+      io.observe(rootEl);
+    }
+    function onVis() { kick(); }
+    document.addEventListener('visibilitychange', onVis);
+
+    /* ---------------- управление ---------------- */
+    var ptr = { id: null, x: 0, y: 0, t: 0 };
+    function onDown(e) {
+      if (e.button != null && e.button > 0) return;
+      if (ptr.id !== null) return;
+      ptr.id = e.pointerId; ptr.x = e.clientX; ptr.y = e.clientY; ptr.t = performance.now();
+      dragging = true; vel = 0;
+      canvas.classList.add('hbt-drag');
+      try { canvas.setPointerCapture(e.pointerId); } catch (err) {}
+      lastInput = performance.now();
+    }
+    function onMove(e) {
+      if (e.pointerId !== ptr.id) return;
+      var dx = e.clientX - ptr.x, dy = e.clientY - ptr.y, now = performance.now();
+      var dtm = Math.max(1, now - ptr.t) / 1000;
+      ptr.x = e.clientX; ptr.y = e.clientY; ptr.t = now;
+      lastInput = now;
+      if (trans) return;
+      var v = VIEWS[current], touch = e.pointerType === 'touch';
+      if (v.mode === 'orbit') {
+        var k = 0.0052 * Math.min(1.6, 900 / Math.max(320, size.w));
+        st.theta -= dx * k;
+        if (!touch) st.phi = Math.max(v.phiMin, Math.min(v.phiMax, st.phi - dy * 0.004));
+        vel = vel * 0.5 + (-dx * k / dtm) * 0.5;
+      } else {
+        var kk = (camera.fov * Math.PI / 180) / Math.max(320, size.h) * 1.15;
+        st.yaw += dx * kk;
+        if (!touch) st.pitch = Math.max(-0.55, Math.min(0.5, st.pitch + dy * kk));
+        vel = vel * 0.5 + (dx * kk / dtm) * 0.5;
+      }
+      vel = Math.max(-2.5, Math.min(2.5, vel));
+      dirty = true;
+    }
+    function onUp(e) {
+      if (e.pointerId !== ptr.id) return;
+      ptr.id = null; dragging = false;
+      canvas.classList.remove('hbt-drag');
+      try { canvas.releasePointerCapture(e.pointerId); } catch (err) {}
+      if (performance.now() - ptr.t > 90 || reduced) vel = 0;
+      lastInput = performance.now();
+      dirty = true;
+    }
+    function onKey(e) {
+      if (trans) return;
+      var dir = e.key === 'ArrowLeft' ? -1 : e.key === 'ArrowRight' ? 1 : 0;
+      if (!dir) return;
+      e.preventDefault();
+      if (VIEWS[current].mode === 'orbit') st.theta += dir * 0.12; else st.yaw -= dir * 0.1;
+      lastInput = performance.now();
+      dirty = true;
+    }
+    function onCtxLost(e) { e.preventDefault(); running = false; if (raf) { root.cancelAnimationFrame(raf); raf = 0; } }
+    function onCtxBack() { renderer.shadowMap.needsUpdate = true; dirty = true; kick(); }
+    canvas.addEventListener('pointerdown', onDown);
+    canvas.addEventListener('pointermove', onMove);
+    canvas.addEventListener('pointerup', onUp);
+    canvas.addEventListener('pointercancel', onUp);
+    canvas.addEventListener('keydown', onKey);
+    canvas.addEventListener('webglcontextlost', onCtxLost);
+    canvas.addEventListener('webglcontextrestored', onCtxBack);
+
+    /* ---------------- публичный объект ---------------- */
+    var tour = {
+      points: points,
+      current: current,
+      supported: true,
+      goTo: goTo,
+      on: function (type, fn) {
+        if (!handlers[type] || typeof fn !== 'function') return tour;
+        handlers[type].push(fn);
+        // поздним подписчикам отдаём текущее состояние асинхронно
+        if (type === 'ready' && readyFired) root.setTimeout(function () { if (!disposed && handlers.ready.indexOf(fn) >= 0) fn(tour); }, 0);
+        if (type === 'change' && initialEmitted) root.setTimeout(function () { if (!disposed && handlers.change.indexOf(fn) >= 0) fn(byId[current]); }, 0);
+        return tour;
+      },
+      off: function (type, fn) {
+        if (!handlers[type]) return tour;
+        handlers[type] = handlers[type].filter(function (f) { return f !== fn; });
+        return tour;
+      },
+      setAutoRotate: function (on) {
+        autoRotate = !!on;
+        lastInput = performance.now() - (on ? 2400 : 0);
+        dirty = true;
+      },
+      dispose: function () {
+        if (disposed) return;
+        disposed = true; running = false;
+        if (raf) root.cancelAnimationFrame(raf);
+        if (ro) ro.disconnect(); else root.removeEventListener('resize', resize);
+        if (io) io.disconnect();
+        document.removeEventListener('visibilitychange', onVis);
+        canvas.removeEventListener('pointerdown', onDown);
+        canvas.removeEventListener('pointermove', onMove);
+        canvas.removeEventListener('pointerup', onUp);
+        canvas.removeEventListener('pointercancel', onUp);
+        canvas.removeEventListener('keydown', onKey);
+        canvas.removeEventListener('webglcontextlost', onCtxLost);
+        canvas.removeEventListener('webglcontextrestored', onCtxBack);
+        geos.forEach(function (g) { g.dispose(); });
+        mats.forEach(function (m) { m.dispose(); });
+        texs.forEach(function (t) { t.dispose(); });
+        if (sun.shadow && sun.shadow.map) sun.shadow.map.dispose();
+        renderer.dispose();
+        if (renderer.forceContextLoss) { try { renderer.forceContextLoss(); } catch (err) {} }
+        if (rootEl.parentNode) rootEl.parentNode.removeChild(rootEl);
+        handlers.change = []; handlers.ready = [];
+        dropStyle();
+      }
+    };
+    Object.defineProperty(tour, 'busy', { enumerable: true, get: function () { return !!trans; } });
+
+    /* ---------------- старт ---------------- */
+    initState(current);
+    setRoofInitial(VIEWS[current].roof);
+    function setRoofInitial(o) { if (o < 1) setRoof(o); }
+    resize();
+    poseOf(current, st, pose);
+    applyPose(pose);
+    buildSpots();
+    var later = root.Promise ? function (fn) { root.Promise.resolve().then(fn); } : function (fn) { root.setTimeout(fn, 0); };
+    later(function () {   // сразу после mount: подписчики, добавленные синхронно, получат стартовую точку
+      if (disposed) return;
+      initialEmitted = true;
+      emit('change', byId[current]);
+    });
+    kick();
+    return tour;
+  }
+
+  root.HBTour = { mount: mount, version: '1.0.0' };
+})(typeof window !== 'undefined' ? window : this);
+
+</script>
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var box = $('tourCanvas'), rail = $('tourRail');
+  var tour = null, current = null;
+
+  function fallback(msg){
+    box.innerHTML = '<div style="position:absolute;inset:0;display:grid;place-items:center;padding:24px;text-align:center;color:#A9B8B2">' + msg + '</div>';
+    $('tourEnter').hidden = true;
+  }
+
+  if (!window.THREE || !window.HBTour) {
+    fallback('3D-тур не загрузился. Проверьте подключение к интернету и обновите страницу.');
+  } else {
+    try {
+      tour = window.HBTour.mount(box, { start: 'exterior', accent: '#E8862A' });
+    } catch (e) { fallback('3D-тур не поддерживается этим браузером.'); }
+  }
+
+  if (tour && tour.points && tour.points.length) {
+    var pts = tour.points;
+    pts.forEach(function(p){
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'chip'; b.textContent = p.title;
+      b.setAttribute('aria-pressed', 'false'); b.dataset.id = p.id;
+      b.addEventListener('click', function(){ tour.goTo(p.id); });
+      rail.appendChild(b);
+    });
+    var show = function(p){
+      if (!p) return;
+      current = p.id;
+      var i = pts.findIndex(function(x){ return x.id === p.id; });
+      $('tourStep').textContent = 'Демо-проект · ' + (i + 1) + ' из ' + pts.length;
+      $('tourTitle').textContent = p.title;
+      $('tourArea').textContent = p.area || '';
+      $('tourNote').textContent = p.note || '';
+      $('tourEnter').hidden = p.id !== 'exterior';
+      Array.prototype.forEach.call(rail.children, function(c){
+        var on = c.dataset.id === p.id;
+        c.setAttribute('aria-pressed', on ? 'true' : 'false');
+        if (on && c.scrollIntoView && rail.scrollWidth > rail.clientWidth) {
+          rail.scrollTo({ left: c.offsetLeft - rail.clientWidth / 2 + c.clientWidth / 2, behavior: 'smooth' });
+        }
+      });
+    };
+    tour.on('change', show);
+    if (!current) show(pts[0]);
+    var step = function(d){
+      var i = pts.findIndex(function(x){ return x.id === current; });
+      tour.goTo(pts[(i + d + pts.length) % pts.length].id);
+    };
+    $('tourPrev').addEventListener('click', function(){ step(-1); });
+    $('tourNext').addEventListener('click', function(){ step(1); });
+  }
+
+  document.querySelectorAll('[data-tour-go]').forEach(function(b){
+    b.addEventListener('click', function(){
+      if (tour && tour.goTo) tour.goTo(b.dataset.tourGo);
+      var st = document.querySelector('.stage');
+      var r = st.getBoundingClientRect();
+      if (r.top < 60 || r.bottom > window.innerHeight) st.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  });
+
+  // Заявка: в демо-версии никуда не отправляется.
+  var form = $('leadForm');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var name = $('leadName').value.trim();
+    var digits = $('leadTel').value.replace(/\D/g, '');
+    if (digits.length < 9) {
+      $('leadErr').textContent = 'Укажите телефон с кодом оператора, например +375 29 123-45-67.';
+      $('leadTel').focus();
+      return;
+    }
+    $('leadErr').textContent = '';
+    var fd = new FormData(form);
+    $('leadDoneTitle').textContent = name ? 'Спасибо, ' + name + '!' : 'Спасибо!';
+    $('leadDoneText').textContent = 'Ваш запрос: ' + fd.get('what') + ', ' + fd.get('area') + ', ' + String(fd.get('when')).toLowerCase() + '. Это демо-версия сайта: заявка пока никуда не отправляется.';
+    form.classList.add('is-done');
+    $('leadDone').focus();
+  });
+})();
+</script>
+</body>
+</html>
